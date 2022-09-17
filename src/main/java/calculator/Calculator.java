@@ -190,7 +190,16 @@ class Calculator extends JFrame
 
     private void evaluate()
     {
+        String currentEquation = labelEquation.getText();
 
+        if (Validator.validateInfixExpression(currentEquation))
+        {
+            labelEquation.setForeground(Color.black);
+        }
+        else
+        {
+            labelEquation.setForeground(Color.red);
+        }
     }
 
     private JLabel labelEquation;
