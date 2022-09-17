@@ -43,11 +43,12 @@ class Calculator extends JFrame
 
         buttonsPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        JLabel emptyLabel1 = new JLabel();
-        buttonsPanel.add(emptyLabel1);
+        JButton buttonPostfix = new JButton("PF");
+        buttonPostfix.addActionListener(actionEvent -> convertToPostfix());
+        buttonsPanel.add(buttonPostfix);
 
-        JLabel emptyLabel2 = new JLabel();
-        buttonsPanel.add(emptyLabel2);
+        JLabel emptyLabel = new JLabel();
+        buttonsPanel.add(emptyLabel);
 
         JButton buttonDelete = new JButton("Del");
         buttonDelete.addActionListener(actionEvent -> deleteLastCharacter());
@@ -142,7 +143,7 @@ class Calculator extends JFrame
         {
             String newEquation;
 
-            if(currentEquation.length() == 1)
+            if (currentEquation.length() == 1)
             {
                 newEquation = "0";
             }
@@ -175,6 +176,16 @@ class Calculator extends JFrame
     private void clearResult()
     {
         labelEquation.setText("0");
+    }
+
+    private void convertToPostfix()
+    {
+        String currentEquation = labelEquation.getText();
+
+        if (!currentEquation.isEmpty())
+        {
+            labelEquation.setText(Converter.convertToPostfixExpression(currentEquation));
+        }
     }
 
     private void evaluate()
