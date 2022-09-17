@@ -195,6 +195,9 @@ class Calculator extends JFrame
         if (Validator.validateInfixExpression(currentEquation))
         {
             labelEquation.setForeground(Color.black);
+
+            String postfixExpression = Converter.convertToPostfixExpression(currentEquation);
+            labelEquation.setText(Evaluator.evaluate(postfixExpression));
         }
         else
         {
