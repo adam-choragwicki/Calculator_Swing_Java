@@ -15,6 +15,11 @@ class EvaluatorTest
         expectedEvaluationResult = "2";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+
+        postfixExpression = "-5";
+        expectedEvaluationResult = "-5";
+
+        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
     }
 
     @Test
@@ -163,6 +168,26 @@ class EvaluatorTest
     {
         postfixExpression = "2 5 * 1 4 / - 5 +";
         expectedEvaluationResult = "14.75";
+
+        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+    }
+
+    @Test
+    @DisplayName("Unary operator +")
+    void evaluate17()
+    {
+        postfixExpression = "2 +5 -";
+        expectedEvaluationResult = "-3";
+
+        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+    }
+
+    @Test
+    @DisplayName("Unary operator -")
+    void evaluate18()
+    {
+        postfixExpression = "2 -7 +";
+        expectedEvaluationResult = "-5";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
     }

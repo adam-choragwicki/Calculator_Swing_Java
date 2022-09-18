@@ -90,6 +90,51 @@ class ValidatorPositiveTest extends ValidatorTest
         infixExpression = "0.123456+456.789-123.456/0.123*15";
         assertTrue(Validator.validateInfixExpression(infixExpression));
     }
+
+    @Test
+    @DisplayName("Acceptable sequence of 2 consecutive operators")
+    void validateInfixExpression11()
+    {
+        infixExpression = "123++456";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123+-456";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123-+456";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123--456";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123*+456";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123*-456";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123/+456";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123/-456";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Unary '+' as the first character")
+    void validateInfixExpression12()
+    {
+        infixExpression = "+123*456";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Unary '-' as the first character")
+    void validateInfixExpression13()
+    {
+        infixExpression = "-123*456";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+    }
 }
 
 class ValidatorNegativeTest extends ValidatorTest
@@ -140,6 +185,9 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = ".123";
         assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "5+.123";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
     }
 
     @Test
@@ -147,6 +195,9 @@ class ValidatorNegativeTest extends ValidatorTest
     void validateInfixExpression7()
     {
         infixExpression = ".123+";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "5+.123+";
         assertFalse(Validator.validateInfixExpression(infixExpression));
     }
 
@@ -167,10 +218,31 @@ class ValidatorNegativeTest extends ValidatorTest
     }
 
     @Test
-    @DisplayName("2 operators next to each other")
+    @DisplayName("Wrong sequence of 2 consecutive operators")
     void validateInfixExpression10()
     {
-        infixExpression = "123+-456";
+        infixExpression = "123+*456";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123+/456";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123-*456";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123-/456";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123**456";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123*/456";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123/*456";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123//456";
         assertFalse(Validator.validateInfixExpression(infixExpression));
     }
 
@@ -183,26 +255,16 @@ class ValidatorNegativeTest extends ValidatorTest
     }
 
     @Test
-    @DisplayName("Operator + as the first character")
-    void validateInfixExpression12()
-    {
-        infixExpression = "+123*456";
-        assertFalse(Validator.validateInfixExpression(infixExpression));
-    }
-
-    @Test
-    @DisplayName("Operator - as the first character")
-    void validateInfixExpression13()
-    {
-        infixExpression = "-123*456";
-        assertFalse(Validator.validateInfixExpression(infixExpression));
-    }
-
-    @Test
     @DisplayName("Double dot")
     void validateInfixExpression14()
     {
         infixExpression = "123*4.5.6";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123*4...5.6";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123*0...5...6";
         assertFalse(Validator.validateInfixExpression(infixExpression));
     }
 
@@ -211,6 +273,25 @@ class ValidatorNegativeTest extends ValidatorTest
     void validateInfixExpression15()
     {
         infixExpression = "123*456.";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Dot without fractional part")
+    void validateInfixExpression16()
+    {
+        infixExpression = "456.+123";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Multiplication and division operator as the first character")
+    void validateInfixExpression17()
+    {
+        infixExpression = "*456";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "/456";
         assertFalse(Validator.validateInfixExpression(infixExpression));
     }
 }

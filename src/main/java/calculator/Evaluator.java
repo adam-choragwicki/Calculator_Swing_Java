@@ -5,31 +5,18 @@ import java.util.Deque;
 
 public class Evaluator
 {
-    static String evaluate(String postfixExpression)
+    static String evaluate(final String postfixExpression)
     {
         Deque<String> operandsStack = new ArrayDeque<>();
-        StringBuilder currentOperand = new StringBuilder();
+        String[] tokens = postfixExpression.split(" ");
 
-        for (int i = 0; i < postfixExpression.length(); ++i)
+        for (String token : tokens)
         {
-            final char scannedCharacter = postfixExpression.charAt(i);
-
-            if (Config.availableCharacters.contains(scannedCharacter))
-            {
-                currentOperand.append(scannedCharacter);
-            }
-            /* Space */
-            else if (scannedCharacter == ' ')
-            {
-                if (currentOperand.length() > 0)
-                {
-                    operandsStack.push(currentOperand.toString());
-                    currentOperand.setLength(0);
-                }
-            }
             /* Operator */
-            else if (Config.availableOperators.contains(scannedCharacter))
+            if (token.length() == 1 && Config.availableOperators.contains(token.charAt(0)))
             {
+                char operator = token.charAt(0);
+
                 if (operandsStack.size() >= 2)
                 {
                     /* First popped operand is the second operand */
@@ -39,13 +26,13 @@ public class Evaluator
                     double operand1 = Double.parseDouble(operand1String);
                     double operand2 = Double.parseDouble(operand2String);
 
-                    double result = switch (scannedCharacter)
+                    double result = switch (operator)
                     {
                         case Config.additionOperator -> operand1 + operand2;
                         case Config.subtractionOperator -> operand1 - operand2;
                         case Config.multiplicationOperator -> operand1 * operand2;
                         case Config.divisionOperator -> operand1 / operand2;
-                        default -> throw new RuntimeException("Unsupported operator " + scannedCharacter);
+                        default -> throw new RuntimeException("Unsupported operator " + operator);
                     };
 
                     operandsStack.push(String.valueOf(result));
@@ -55,16 +42,11 @@ public class Evaluator
                     throw new RuntimeException("Operand stack contains less than 2 operands");
                 }
             }
+            /* Operand */
             else
             {
-                throw new RuntimeException("Postfix expression under evaluation contains unsupported character '%c'".formatted(scannedCharacter));
+                operandsStack.push(token);
             }
-        }
-
-        if (!currentOperand.isEmpty())
-        {
-            operandsStack.push(currentOperand.toString());
-            currentOperand.setLength(0);
         }
 
         if (operandsStack.size() == 1)

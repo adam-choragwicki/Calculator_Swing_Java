@@ -9,26 +9,86 @@ public class Validator
     {
         final String operatorsSetRegex = "[%c%c%c%c]".formatted(Config.subtractionOperator, Config.additionOperator, Config.multiplicationOperator, Config.divisionOperator);
 
-        final String singleNumberRegex = "^\\d+(\\.\\d+)?$";
+        final String threeOrMoreConsecutiveOperatorsRegex = "%s{3,}".formatted(operatorsSetRegex);
 
-        Pattern pattern1 = Pattern.compile(singleNumberRegex);
-        Matcher matcher1 = pattern1.matcher(infixExpression);
-
-        if (matcher1.find())
+        if (applyRegex(infixExpression, threeOrMoreConsecutiveOperatorsRegex))
         {
-            return true;
+            System.out.println("Any 3 or more consecutive operators are not allowed");
+            return false;
         }
 
-        final String multipleExpressionsRegex = "^\\d+(\\.\\d+)?(%s\\d+(\\.\\d+)?)+$".formatted(operatorsSetRegex);
+        final String consecutiveOperatorsRegex = "%s[*/]".formatted(operatorsSetRegex);
 
-        Pattern pattern2 = Pattern.compile(multipleExpressionsRegex);
-        Matcher matcher2 = pattern2.matcher(infixExpression);
-
-        if (matcher2.find())
+        if (applyRegex(infixExpression, consecutiveOperatorsRegex))
         {
-            return true;
+            System.out.println("Wrong 2 consecutive operators sequence");
+            return false;
         }
 
-        return false;
+        final String twoOrMoreDotsRegex = "\\d+(\\.\\d*){2,}";
+
+        if (applyRegex(infixExpression, twoOrMoreDotsRegex))
+        {
+            System.out.println("Two or more dots in number are not allowed");
+            return false;
+        }
+
+        final String wrongOperatorAsTheFirstCharacter = "^[*/]";
+
+        if (applyRegex(infixExpression, wrongOperatorAsTheFirstCharacter))
+        {
+            System.out.println("Wrong operator as the first character of the equation");
+            return false;
+        }
+
+        final String operatorAsTheLastCharacter = "%s$".formatted(operatorsSetRegex);
+
+        if (applyRegex(infixExpression, operatorAsTheLastCharacter))
+        {
+            System.out.println("Operator cannot be the last character in an equation");
+            return false;
+        }
+
+        final String dotAsTheFirstCharacter = "^\\.";
+
+        if (applyRegex(infixExpression, dotAsTheFirstCharacter))
+        {
+            System.out.println("Dot cannot be the first character in an equation");
+            return false;
+        }
+
+        final String dotAsTheLastCharacter = "\\.$";
+
+        if (applyRegex(infixExpression, dotAsTheLastCharacter))
+        {
+            System.out.println("Dot cannot be the last character in an equation");
+            return false;
+        }
+
+        final String dotWithoutIntegerPart = "%s\\.\\d+".formatted(operatorsSetRegex);
+
+        if (applyRegex(infixExpression, dotWithoutIntegerPart))
+        {
+            System.out.println("Dot cannot be used without integer part");
+            return false;
+        }
+
+        final String dotWithoutFractionalPart = "\\d+\\.%s".formatted(operatorsSetRegex);
+
+        if (applyRegex(infixExpression, dotWithoutFractionalPart))
+        {
+            System.out.println("Dot cannot be used without fractional part");
+            return false;
+        }
+
+        return true;
+    }
+
+    static boolean applyRegex(final String expression, final String regex)
+    {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(expression);
+
+        return matcher.find();
     }
 }

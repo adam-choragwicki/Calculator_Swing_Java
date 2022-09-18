@@ -1,6 +1,7 @@
 package calculator;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ConverterTest
@@ -73,6 +74,36 @@ class ConverterTest
     {
         infixExpression = "2 * 5 + 3 - 4 / 8";
         expectedPostfixExpression = "2 5 * 3 + 4 8 / -";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Unary operator +")
+    void convertToPostfixExpression9()
+    {
+        infixExpression = "+2 - +3";
+        expectedPostfixExpression = "2 3 -";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+
+        infixExpression = "2 - +3";
+        expectedPostfixExpression = "2 3 -";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Unary operator -")
+    void convertToPostfixExpression10()
+    {
+        infixExpression = "-2 + -3";
+        expectedPostfixExpression = "-2 3 -";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+
+        infixExpression = "2 + -3";
+        expectedPostfixExpression = "2 3 -";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
     }

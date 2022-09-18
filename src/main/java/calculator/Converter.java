@@ -1,8 +1,6 @@
 package calculator;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 public class Converter
 {
@@ -12,6 +10,9 @@ public class Converter
         Deque<Character> operatorsStack = new ArrayDeque<>();
 
         infixExpression = infixExpression.replace(" ", "");
+
+        /* Simplifies some sequences of operators */
+        infixExpression = simplifyInfixExpression(infixExpression);
 
         StringBuilder currentOperand = new StringBuilder();
 
@@ -27,6 +28,24 @@ public class Converter
             /* Operator */
             else if (Config.availableOperators.contains(scannedCharacter))
             {
+                if(scannedCharacter == Config.additionOperator)
+                {
+                    if(currentOperand.isEmpty())
+                    {
+                        /* Scanned addition operator is unary operator and can be omitted */
+                        continue;
+                    }
+                }
+                else if(scannedCharacter == Config.subtractionOperator)
+                {
+                    if(currentOperand.isEmpty())
+                    {
+                        /* Scanned subtraction operator is unary operator and should be part of next scanned operand */
+                        currentOperand.append(Config.subtractionOperator);
+                        continue;
+                    }
+                }
+
                 result.append(' ').append(currentOperand);
                 currentOperand.setLength(0);
 
@@ -66,6 +85,25 @@ public class Converter
 
         /* Remove doubles spaces */
         return String.valueOf(result).trim().replace("  ", " ");
+    }
+
+    private static String simplifyInfixExpression(String infixExpression)
+    {
+        Map<String, String> operatorsSimplificationMapping = Map.of(
+        "++", "+",
+        "+-", "-",
+        "-+", "-",
+        "--", "+",
+        "*+", "*",
+        "/+", "/"
+        );
+
+        for (var entry : operatorsSimplificationMapping.entrySet())
+        {
+            infixExpression = infixExpression.replace(entry.getKey(), entry.getValue());
+        }
+
+        return infixExpression;
     }
 
     private enum Precedence
