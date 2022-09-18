@@ -20,7 +20,7 @@ public class Converter
             final char scannedCharacter = infixExpression.charAt(i);
 
             /* Digit or dot */
-            if (Character.isDigit(scannedCharacter) || scannedCharacter == '.')
+            if (Config.availableCharacters.contains(scannedCharacter))
             {
                 currentOperand.append(scannedCharacter);
             }

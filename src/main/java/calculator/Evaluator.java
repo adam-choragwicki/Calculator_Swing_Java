@@ -14,7 +14,7 @@ public class Evaluator
         {
             final char scannedCharacter = postfixExpression.charAt(i);
 
-            if (Character.isDigit(scannedCharacter) || scannedCharacter == '.')
+            if (Config.availableCharacters.contains(scannedCharacter))
             {
                 currentOperand.append(scannedCharacter);
             }
@@ -39,28 +39,14 @@ public class Evaluator
                     double operand1 = Double.parseDouble(operand1String);
                     double operand2 = Double.parseDouble(operand2String);
 
-                    double result;
-
-                    if (scannedCharacter == Config.additionOperator)
+                    double result = switch (scannedCharacter)
                     {
-                        result = operand1 + operand2;
-                    }
-                    else if (scannedCharacter == Config.subtractionOperator)
-                    {
-                        result = operand1 - operand2;
-                    }
-                    else if (scannedCharacter == Config.multiplicationOperator)
-                    {
-                        result = operand1 * operand2;
-                    }
-                    else if (scannedCharacter == Config.divisionOperator)
-                    {
-                        result = operand1 / operand2;
-                    }
-                    else
-                    {
-                        throw new RuntimeException("Unsupported operator " + scannedCharacter);
-                    }
+                        case Config.additionOperator -> operand1 + operand2;
+                        case Config.subtractionOperator -> operand1 - operand2;
+                        case Config.multiplicationOperator -> operand1 * operand2;
+                        case Config.divisionOperator -> operand1 / operand2;
+                        default -> throw new RuntimeException("Unsupported operator " + scannedCharacter);
+                    };
 
                     operandsStack.push(String.valueOf(result));
                 }

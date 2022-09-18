@@ -43,90 +43,90 @@ class Calculator extends JFrame
 
         buttonsPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        JButton buttonPostfix = new JButton("PF");
+        JButton buttonPostfix = new JButton("Postfix");
         buttonPostfix.addActionListener(actionEvent -> convertToPostfix());
         buttonsPanel.add(buttonPostfix);
 
         JLabel emptyLabel = new JLabel();
         buttonsPanel.add(emptyLabel);
 
-        JButton buttonDelete = new JButton("Del");
+        JButton buttonDelete = new JButton(Config.delete);
         buttonDelete.addActionListener(actionEvent -> deleteLastCharacter());
         buttonsPanel.add(buttonDelete);
 
-        JButton buttonClear = new JButton("C");
+        JButton buttonClear = new JButton(String.valueOf(Config.clear));
         buttonClear.addActionListener(actionEvent -> clearResult());
         buttonsPanel.add(buttonClear);
 
         /* -------------------------------------------------- */
 
-        JButton button7 = new JButton("7");
+        JButton button7 = new JButton(String.valueOf(Config.num7));
         addActionToButton(button7);
         buttonsPanel.add(button7);
 
-        JButton button8 = new JButton("8");
+        JButton button8 = new JButton(String.valueOf(Config.num8));
         addActionToButton(button8);
         buttonsPanel.add(button8);
 
-        JButton button9 = new JButton("9");
+        JButton button9 = new JButton(String.valueOf(Config.num9));
         addActionToButton(button9);
         buttonsPanel.add(button9);
 
-        JButton buttonDivision = new JButton("/");
+        JButton buttonDivision = new JButton(String.valueOf(Config.divisionOperator));
         addActionToButton(buttonDivision);
         buttonsPanel.add(buttonDivision);
 
         /* -------------------------------------------------- */
 
-        JButton button4 = new JButton("4");
+        JButton button4 = new JButton(String.valueOf(Config.num4));
         addActionToButton(button4);
         buttonsPanel.add(button4);
 
-        JButton button5 = new JButton("5");
+        JButton button5 = new JButton(String.valueOf(Config.num5));
         addActionToButton(button5);
         buttonsPanel.add(button5);
 
-        JButton button6 = new JButton("6");
+        JButton button6 = new JButton(String.valueOf(Config.num6));
         addActionToButton(button6);
         buttonsPanel.add(button6);
 
-        JButton buttonMultiplication = new JButton("*");
+        JButton buttonMultiplication = new JButton(String.valueOf(Config.multiplicationOperator));
         addActionToButton(buttonMultiplication);
         buttonsPanel.add(buttonMultiplication);
 
         /* -------------------------------------------------- */
 
-        JButton button1 = new JButton("1");
+        JButton button1 = new JButton(String.valueOf(Config.num1));
         addActionToButton(button1);
         buttonsPanel.add(button1);
 
-        JButton button2 = new JButton("2");
+        JButton button2 = new JButton(String.valueOf(Config.num2));
         addActionToButton(button2);
         buttonsPanel.add(button2);
 
-        JButton button3 = new JButton("3");
+        JButton button3 = new JButton(String.valueOf(Config.num3));
         addActionToButton(button3);
         buttonsPanel.add(button3);
 
-        JButton buttonSubtraction = new JButton("-");
+        JButton buttonSubtraction = new JButton(String.valueOf(Config.subtractionOperator));
         addActionToButton(buttonSubtraction);
         buttonsPanel.add(buttonSubtraction);
 
         /* -------------------------------------------------- */
 
-        JButton buttonDot = new JButton(".");
+        JButton buttonDot = new JButton(String.valueOf(Config.dot));
         addActionToButton(buttonDot);
         buttonsPanel.add(buttonDot);
 
-        JButton button0 = new JButton("0");
+        JButton button0 = new JButton(String.valueOf(Config.num0));
         addActionToButton(button0);
         buttonsPanel.add(button0);
 
-        JButton buttonEquals = new JButton("=");
+        JButton buttonEquals = new JButton(String.valueOf(Config.equals));
         buttonEquals.addActionListener(actionEvent -> evaluate());
         buttonsPanel.add(buttonEquals);
 
-        JButton buttonAddition = new JButton("+");
+        JButton buttonAddition = new JButton(String.valueOf(Config.additionOperator));
         addActionToButton(buttonAddition);
         buttonsPanel.add(buttonAddition);
 
@@ -141,18 +141,14 @@ class Calculator extends JFrame
 
         if (!currentEquation.isEmpty())
         {
-            String newEquation;
-
             if (currentEquation.length() == 1)
             {
-                newEquation = "0";
+                clearResult();
             }
             else
             {
-                newEquation = currentEquation.substring(0, currentEquation.length() - 1);
+                labelEquation.setText(currentEquation.substring(0, currentEquation.length() - 1));
             }
-
-            labelEquation.setText(newEquation);
         }
     }
 
