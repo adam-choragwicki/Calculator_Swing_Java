@@ -30,10 +30,7 @@ class Calculator extends JFrame
     {
         labelEquation = new JLabel("0");
         labelEquation.setAlignmentX(Component.RIGHT_ALIGNMENT);
-
-        Font labelResultFont = new Font("", Font.BOLD, 30);
-        labelEquation.setFont(labelResultFont);
-
+        labelEquation.setFont(Config.labelResultFont);
         add(labelEquation);
     }
 
@@ -43,91 +40,72 @@ class Calculator extends JFrame
 
         buttonsPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        JButton buttonPostfix = new JButton("Postfix");
-        buttonPostfix.addActionListener(actionEvent -> convertToPostfix());
-        buttonsPanel.add(buttonPostfix);
+        CharacterButton buttonLeftParentheses = new CharacterButton(String.valueOf(Config.leftParentheses));
+        buttonsPanel.add(buttonLeftParentheses);
 
-        JLabel emptyLabel = new JLabel();
-        buttonsPanel.add(emptyLabel);
+        CharacterButton buttonRightParentheses = new CharacterButton(String.valueOf(Config.rightParentheses));
+        buttonsPanel.add(buttonRightParentheses);
 
-        JButton buttonDelete = new JButton(Config.delete);
-        buttonDelete.addActionListener(actionEvent -> deleteLastCharacter());
+        ActionButton buttonDelete = new ActionButton(Config.delete, this::deleteLastCharacter);
         buttonsPanel.add(buttonDelete);
 
-        JButton buttonClear = new JButton(String.valueOf(Config.clear));
-        buttonClear.addActionListener(actionEvent -> clearResult());
+        ActionButton buttonClear = new ActionButton(String.valueOf(Config.clear), this::clearResult);
         buttonsPanel.add(buttonClear);
 
         /* -------------------------------------------------- */
 
-        JButton button7 = new JButton(String.valueOf(Config.num7));
-        addActionToButton(button7);
+        CharacterButton button7 = new CharacterButton(String.valueOf(Config.num7));
         buttonsPanel.add(button7);
 
-        JButton button8 = new JButton(String.valueOf(Config.num8));
-        addActionToButton(button8);
+        CharacterButton button8 = new CharacterButton(String.valueOf(Config.num8));
         buttonsPanel.add(button8);
 
-        JButton button9 = new JButton(String.valueOf(Config.num9));
-        addActionToButton(button9);
+        CharacterButton button9 = new CharacterButton(String.valueOf(Config.num9));
         buttonsPanel.add(button9);
 
-        JButton buttonDivision = new JButton(String.valueOf(Config.divisionOperator));
-        addActionToButton(buttonDivision);
+        CharacterButton buttonDivision = new CharacterButton(String.valueOf(Config.divisionOperator));
         buttonsPanel.add(buttonDivision);
 
         /* -------------------------------------------------- */
 
-        JButton button4 = new JButton(String.valueOf(Config.num4));
-        addActionToButton(button4);
+        CharacterButton button4 = new CharacterButton(String.valueOf(Config.num4));
         buttonsPanel.add(button4);
 
-        JButton button5 = new JButton(String.valueOf(Config.num5));
-        addActionToButton(button5);
+        CharacterButton button5 = new CharacterButton(String.valueOf(Config.num5));
         buttonsPanel.add(button5);
 
-        JButton button6 = new JButton(String.valueOf(Config.num6));
-        addActionToButton(button6);
+        CharacterButton button6 = new CharacterButton(String.valueOf(Config.num6));
         buttonsPanel.add(button6);
 
-        JButton buttonMultiplication = new JButton(String.valueOf(Config.multiplicationOperator));
-        addActionToButton(buttonMultiplication);
+        CharacterButton buttonMultiplication = new CharacterButton(String.valueOf(Config.multiplicationOperator));
         buttonsPanel.add(buttonMultiplication);
 
         /* -------------------------------------------------- */
 
-        JButton button1 = new JButton(String.valueOf(Config.num1));
-        addActionToButton(button1);
+        CharacterButton button1 = new CharacterButton(String.valueOf(Config.num1));
         buttonsPanel.add(button1);
 
-        JButton button2 = new JButton(String.valueOf(Config.num2));
-        addActionToButton(button2);
+        CharacterButton button2 = new CharacterButton(String.valueOf(Config.num2));
         buttonsPanel.add(button2);
 
-        JButton button3 = new JButton(String.valueOf(Config.num3));
-        addActionToButton(button3);
+        CharacterButton button3 = new CharacterButton(String.valueOf(Config.num3));
         buttonsPanel.add(button3);
 
-        JButton buttonSubtraction = new JButton(String.valueOf(Config.subtractionOperator));
-        addActionToButton(buttonSubtraction);
+        CharacterButton buttonSubtraction = new CharacterButton(String.valueOf(Config.subtractionOperator));
         buttonsPanel.add(buttonSubtraction);
 
         /* -------------------------------------------------- */
 
-        JButton buttonDot = new JButton(String.valueOf(Config.dot));
-        addActionToButton(buttonDot);
+        CharacterButton buttonDot = new CharacterButton(String.valueOf(Config.dot));
         buttonsPanel.add(buttonDot);
 
-        JButton button0 = new JButton(String.valueOf(Config.num0));
-        addActionToButton(button0);
+        CharacterButton button0 = new CharacterButton(String.valueOf(Config.num0));
         buttonsPanel.add(button0);
 
-        JButton buttonEquals = new JButton(String.valueOf(Config.equals));
-        buttonEquals.addActionListener(actionEvent -> evaluate());
+        ActionButton buttonEquals = new ActionButton(String.valueOf(Config.equals), this::evaluate);
         buttonsPanel.add(buttonEquals);
 
-        JButton buttonAddition = new JButton(String.valueOf(Config.additionOperator));
-        addActionToButton(buttonAddition);
+        CharacterButton buttonAddition = new CharacterButton(String.valueOf(Config.additionOperator));
         buttonsPanel.add(buttonAddition);
 
         /* -------------------------------------------------- */
@@ -152,12 +130,7 @@ class Calculator extends JFrame
         }
     }
 
-    private void addActionToButton(JButton button)
-    {
-        button.addActionListener(actionEvent -> appendCharacterToLabelEquation(button.getText().charAt(0)));
-    }
-
-    private void appendCharacterToLabelEquation(final char character)
+    public static void appendCharacterToLabelEquation(final char character)
     {
         if (labelEquation.getText().equals("0"))
         {
@@ -172,6 +145,7 @@ class Calculator extends JFrame
     private void clearResult()
     {
         labelEquation.setText("0");
+        labelEquation.setForeground(Color.black);
     }
 
     private void convertToPostfix()
@@ -201,5 +175,5 @@ class Calculator extends JFrame
         }
     }
 
-    private JLabel labelEquation;
+    private static JLabel labelEquation;
 }

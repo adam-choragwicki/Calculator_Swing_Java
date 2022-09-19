@@ -1,5 +1,6 @@
 package calculator;
 
+import java.awt.*;
 import java.util.List;
 
 public class Config
@@ -8,6 +9,8 @@ public class Config
     static final char subtractionOperator = '-';
     static final char multiplicationOperator = '*';
     static final char divisionOperator = '/';
+    static final char leftParentheses = '(';
+    static final char rightParentheses = ')';
 
     static final char num0 = '0';
     static final char num1 = '1';
@@ -33,4 +36,7 @@ public class Config
         availableOperators = List.of(additionOperator, subtractionOperator, multiplicationOperator, divisionOperator);
         availableCharacters = List.of(num0, num1, num2, num3, num4, num5, num6, num7, num8, num9, dot);
     }
+
+    static final Font labelResultFont = new Font("", Font.BOLD, 50);
+    static final Font buttonFont = new Font("", Font.BOLD, 20);
 }
