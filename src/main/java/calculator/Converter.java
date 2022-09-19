@@ -6,13 +6,16 @@ public class Converter
 {
     static String convertToPostfixExpression(String infixExpression)
     {
-        StringBuilder result = new StringBuilder();
+        StringBuilder resultPostfixExpression = new StringBuilder();
         Deque<Character> operatorsStack = new ArrayDeque<>();
 
         infixExpression = infixExpression.replace(" ", "");
 
         /* Simplifies some sequences of operators */
         infixExpression = simplifyInfixExpression(infixExpression);
+
+        infixExpression = infixExpression.replace("+(", "+1*(");
+        infixExpression = infixExpression.replace("-(", "-1*(");
 
         StringBuilder currentOperand = new StringBuilder();
 
@@ -28,17 +31,17 @@ public class Converter
             /* Operator */
             else if (Config.availableOperators.contains(scannedCharacter))
             {
-                if(scannedCharacter == Config.additionOperator)
+                if (scannedCharacter == Config.additionOperator)
                 {
-                    if(currentOperand.isEmpty())
+                    if (currentOperand.isEmpty())
                     {
                         /* Scanned addition operator is unary operator and can be omitted */
                         continue;
                     }
                 }
-                else if(scannedCharacter == Config.subtractionOperator)
+                else if (scannedCharacter == Config.subtractionOperator)
                 {
-                    if(currentOperand.isEmpty())
+                    if (currentOperand.isEmpty())
                     {
                         /* Scanned subtraction operator is unary operator and should be part of next scanned operand */
                         currentOperand.append(Config.subtractionOperator);
@@ -46,7 +49,7 @@ public class Converter
                     }
                 }
 
-                result.append(' ').append(currentOperand);
+                resultPostfixExpression.append(' ').append(currentOperand);
                 currentOperand.setLength(0);
 
                 if (operatorsStack.isEmpty())
@@ -55,7 +58,11 @@ public class Converter
                 }
                 else
                 {
-                    if (hasPrecedence(scannedCharacter, operatorsStack.peek()) == Precedence.HIGHER)
+                    if (operatorsStack.peek() == '(')
+                    {
+                        operatorsStack.push(scannedCharacter);
+                    }
+                    else if (hasPrecedence(scannedCharacter, operatorsStack.peek()) == Precedence.HIGHER)
                     {
                         operatorsStack.push(scannedCharacter);
                     }
@@ -63,10 +70,39 @@ public class Converter
                     {
                         while (!operatorsStack.isEmpty() && hasPrecedence(scannedCharacter, operatorsStack.peek()) != Precedence.HIGHER)
                         {
-                            result.append(' ').append(operatorsStack.pop());
+                            resultPostfixExpression.append(' ').append(operatorsStack.pop());
                         }
 
                         operatorsStack.push(scannedCharacter);
+                    }
+                }
+            }
+            else if (scannedCharacter == Config.leftParentheses)
+            {
+                if (!currentOperand.isEmpty())
+                {
+                    resultPostfixExpression.append(' ').append(currentOperand);
+                    currentOperand.setLength(0);
+                }
+
+                operatorsStack.push(scannedCharacter);
+            }
+            else if (scannedCharacter == Config.rightParentheses)
+            {
+                resultPostfixExpression.append(' ').append(currentOperand);
+                currentOperand.setLength(0);
+
+                while (!operatorsStack.isEmpty())
+                {
+                    char character = operatorsStack.pop();
+
+                    if (character == '(')
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        resultPostfixExpression.append(' ').append(character);
                     }
                 }
             }
@@ -76,15 +112,15 @@ public class Converter
             }
         }
 
-        result.append(' ').append(currentOperand);
+        resultPostfixExpression.append(' ').append(currentOperand);
 
         while (!operatorsStack.isEmpty())
         {
-            result.append(' ').append(operatorsStack.pop());
+            resultPostfixExpression.append(' ').append(operatorsStack.pop());
         }
 
         /* Remove doubles spaces */
-        return String.valueOf(result).trim().replace("  ", " ");
+        return String.valueOf(resultPostfixExpression).trim().replace("  ", " ");
     }
 
     private static String simplifyInfixExpression(String infixExpression)
@@ -138,7 +174,7 @@ public class Converter
             }
             else
             {
-                throw new RuntimeException("Operator2 " + operator2 + " does not belong to any precedence level");
+                throw new RuntimeException("Operator2 '%c' does not belong to any precedence level".formatted(operator2));
             }
         }
         /* Operator1 has precedence level 2 */
@@ -156,12 +192,12 @@ public class Converter
             }
             else
             {
-                throw new RuntimeException("Operator2 " + operator2 + " does not belong to any precedence level");
+                throw new RuntimeException("Operator2 '%c' does not belong to any precedence level".formatted(operator2));
             }
         }
         else
         {
-            throw new RuntimeException("Operator1 " + operator1 + " does not belong to any precedence level");
+            throw new RuntimeException("Operator1 '%c' does not belong to any precedence level".formatted(operator1));
         }
     }
 }

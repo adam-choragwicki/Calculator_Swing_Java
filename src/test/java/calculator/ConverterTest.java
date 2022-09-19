@@ -1,6 +1,7 @@
 package calculator;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -104,6 +105,88 @@ class ConverterTest
 
         infixExpression = "2 + -3";
         expectedPostfixExpression = "2 3 -";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Single parentheses")
+    void convertToPostfixExpression11()
+    {
+        infixExpression = "(2 + 3)";
+        expectedPostfixExpression = "2 3 +";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+
+        infixExpression = "(-2 + 3)";
+        expectedPostfixExpression = "-2 3 +";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+
+        infixExpression = "(2 + -3)";
+        expectedPostfixExpression = "2 3 -";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+
+        infixExpression = "(-2 + -3)";
+        expectedPostfixExpression = "-2 3 -";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+
+        infixExpression = "4 * (2 + 3) / 5";
+        expectedPostfixExpression = "4 2 3 + * 5 /";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+
+        infixExpression = "-4 * (-2 + -3) / -5";
+        expectedPostfixExpression = "-4 -2 3 - * -5 /";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Multiple parentheses")
+    void convertToPostfixExpression12()
+    {
+        infixExpression = "(2 + 3) * (4 - 5)";
+        expectedPostfixExpression = "2 3 + 4 5 - *";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Unary '+' before parentheses")
+    void convertToPostfixExpression13()
+    {
+//        infixExpression = "+(2 + 3)";
+//        expectedPostfixExpression = "2 3 +";
+//
+//        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+//
+//        infixExpression = "(2 + 3) + (5 * 1)";
+//        expectedPostfixExpression = "2 3 + 5 1 *";
+//
+//        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+//
+//        assertEquals("10", Evaluator.evaluate(expectedPostfixExpression));
+    }
+
+    @Test
+    @DisplayName("Negate parentheses")
+    void convertToPostfixExpression14()
+    {
+        infixExpression = "-(2 + 3)";
+        expectedPostfixExpression = "-1 2 3 + *";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+
+        infixExpression = "-(2 + 3) * -(4 - 5)";
+        expectedPostfixExpression = "-1 2 3 + * -1 * 4 5 - *";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+
+        infixExpression = "-(2 + 3) * -(4 - 5)";
+        expectedPostfixExpression = "-1 2 3 + * -1 * 4 5 - *";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
     }
