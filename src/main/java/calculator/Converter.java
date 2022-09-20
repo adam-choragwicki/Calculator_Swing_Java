@@ -62,13 +62,13 @@ public class Converter
                     {
                         operatorsStack.push(scannedCharacter);
                     }
-                    else if (hasPrecedence(scannedCharacter, operatorsStack.peek()) == Precedence.HIGHER)
+                    else if (OperatorPrecedenceManager.hasPrecedence(scannedCharacter, operatorsStack.peek()))
                     {
                         operatorsStack.push(scannedCharacter);
                     }
                     else
                     {
-                        while (!operatorsStack.isEmpty() && hasPrecedence(scannedCharacter, operatorsStack.peek()) != Precedence.HIGHER)
+                        while (!operatorsStack.isEmpty() && !OperatorPrecedenceManager.hasPrecedence(scannedCharacter, operatorsStack.peek()))
                         {
                             char topOperator = operatorsStack.pop();
 
@@ -145,98 +145,5 @@ public class Converter
         }
 
         return infixExpression;
-    }
-
-    private enum Precedence
-    {
-        LOWER,
-        EQUAL,
-        HIGHER
-    }
-
-    static Precedence hasPrecedence(char operator1, char operator2)
-    {
-        if (operator1 == operator2)
-        {
-            return Precedence.EQUAL;
-        }
-
-        List<Character> precedenceLevel1 = List.of(Characters.leftParentheses);
-        List<Character> precedenceLevel2 = List.of('*', '/');
-        List<Character> precedenceLevel3 = List.of('+', '-');
-
-        /* Operator1 has precedence level 1 */
-        if (precedenceLevel1.contains(operator1))
-        {
-            /* Same precedence */
-            if (precedenceLevel1.contains(operator2))
-            {
-                return Precedence.EQUAL;
-            }
-            /* Operator 2 has lower precedence */
-            else if (precedenceLevel2.contains(operator2))
-            {
-                return Precedence.HIGHER;
-            }
-            /* Operator 2 has lower precedence */
-            else if (precedenceLevel3.contains(operator2))
-            {
-                return Precedence.HIGHER;
-            }
-            else
-            {
-                throw new RuntimeException("Operator2 '%c' does not belong to any precedence level".formatted(operator2));
-            }
-        }
-        /* Operator1 has precedence level 2 */
-        else if (precedenceLevel2.contains(operator1))
-        {
-            /* Operator 2 has lower precedence */
-            if (precedenceLevel1.contains(operator2))
-            {
-                return Precedence.LOWER;
-            }
-            /* Same precedence */
-            else if (precedenceLevel2.contains(operator2))
-            {
-                return Precedence.EQUAL;
-            }
-            /* Operator 2 has higher precedence */
-            else if (precedenceLevel3.contains(operator2))
-            {
-                return Precedence.HIGHER;
-            }
-            else
-            {
-                throw new RuntimeException("Operator2 '%c' does not belong to any precedence level".formatted(operator2));
-            }
-        }
-        /* Operator1 has precedence level 3 */
-        else if (precedenceLevel3.contains(operator1))
-        {
-            /* Operator 2 has higher precedence */
-            if (precedenceLevel1.contains(operator2))
-            {
-                return Precedence.LOWER;
-            }
-            /* Operator 2 has higher precedence */
-            else if (precedenceLevel2.contains(operator2))
-            {
-                return Precedence.LOWER;
-            }
-            /* Same precedence */
-            else if (precedenceLevel3.contains(operator2))
-            {
-                return Precedence.EQUAL;
-            }
-            else
-            {
-                throw new RuntimeException("Operator2 '%c' does not belong to any precedence level".formatted(operator2));
-            }
-        }
-        else
-        {
-            throw new RuntimeException("Operator1 '%c' does not belong to any precedence level".formatted(operator1));
-        }
     }
 }
