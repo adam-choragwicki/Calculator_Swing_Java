@@ -7,7 +7,7 @@ public class Validator
 {
     static boolean validateInfixExpression(final String infixExpression)
     {
-        final String operatorsSetRegex = "[%c%c%c%c]".formatted(Config.subtractionOperator, Config.additionOperator, Config.multiplicationOperator, Config.divisionOperator);
+        final String operatorsSetRegex = "[%c%c%c%c]".formatted(Operators.subtractionOperator, Operators.additionOperator, Operators.multiplicationOperator, Operators.divisionOperator);
 
         final String threeOrMoreConsecutiveOperatorsRegex = "%s{3,}".formatted(operatorsSetRegex);
 

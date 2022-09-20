@@ -24,14 +24,14 @@ public class Converter
             final char scannedCharacter = infixExpression.charAt(i);
 
             /* Digit or dot */
-            if (Config.availableCharacters.contains(scannedCharacter))
+            if (Characters.availableCharacters.contains(scannedCharacter))
             {
                 currentOperand.append(scannedCharacter);
             }
             /* Operator */
-            else if (Config.availableOperators.contains(scannedCharacter))
+            else if (Operators.availableOperators.contains(scannedCharacter))
             {
-                if (scannedCharacter == Config.additionOperator)
+                if (scannedCharacter == Operators.additionOperator)
                 {
                     if (currentOperand.isEmpty())
                     {
@@ -39,12 +39,12 @@ public class Converter
                         continue;
                     }
                 }
-                else if (scannedCharacter == Config.subtractionOperator)
+                else if (scannedCharacter == Operators.subtractionOperator)
                 {
                     if (currentOperand.isEmpty())
                     {
                         /* Scanned subtraction operator is unary operator and should be part of next scanned operand */
-                        currentOperand.append(Config.subtractionOperator);
+                        currentOperand.append(Operators.subtractionOperator);
                         continue;
                     }
                 }
@@ -77,7 +77,7 @@ public class Converter
                     }
                 }
             }
-            else if (scannedCharacter == Config.leftParentheses)
+            else if (scannedCharacter == Characters.leftParentheses)
             {
                 if (!currentOperand.isEmpty())
                 {
@@ -87,7 +87,7 @@ public class Converter
 
                 operatorsStack.push(scannedCharacter);
             }
-            else if (scannedCharacter == Config.rightParentheses)
+            else if (scannedCharacter == Characters.rightParentheses)
             {
                 resultPostfixExpression.append(' ').append(currentOperand);
                 currentOperand.setLength(0);
@@ -156,8 +156,8 @@ public class Converter
             return Precedence.EQUAL;
         }
 
-        List<Character> precedenceLevel1 = List.of(Config.multiplicationOperator, Config.divisionOperator);
-        List<Character> precedenceLevel2 = List.of(Config.additionOperator, Config.subtractionOperator);
+        List<Character> precedenceLevel1 = List.of(Operators.multiplicationOperator, Operators.divisionOperator);
+        List<Character> precedenceLevel2 = List.of(Operators.additionOperator, Operators.subtractionOperator);
 
         /* Operator1 has precedence level 1 */
         if (precedenceLevel1.contains(operator1))

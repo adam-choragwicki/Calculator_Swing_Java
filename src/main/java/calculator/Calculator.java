@@ -15,7 +15,7 @@ class Calculator extends JFrame
 
         addComponents();
 
-        setSize(400, 400);
+        setSize(Config.windowWidth, Config.windowHeight);
         setMinimumSize(getSize());
         setVisible(true);
     }
@@ -40,72 +40,72 @@ class Calculator extends JFrame
 
         buttonsPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        CharacterButton buttonLeftParentheses = new CharacterButton(String.valueOf(Config.leftParentheses));
+        CharacterButton buttonLeftParentheses = new CharacterButton(String.valueOf(Characters.leftParentheses));
         buttonsPanel.add(buttonLeftParentheses);
 
-        CharacterButton buttonRightParentheses = new CharacterButton(String.valueOf(Config.rightParentheses));
+        CharacterButton buttonRightParentheses = new CharacterButton(String.valueOf(Characters.rightParentheses));
         buttonsPanel.add(buttonRightParentheses);
 
-        ActionButton buttonDelete = new ActionButton(Config.delete, this::deleteLastCharacter);
+        ActionButton buttonDelete = new ActionButton(Actions.delete, this::deleteLastCharacter);
         buttonsPanel.add(buttonDelete);
 
-        ActionButton buttonClear = new ActionButton(String.valueOf(Config.clear), this::clearResult);
+        ActionButton buttonClear = new ActionButton(String.valueOf(Actions.clear), this::clearResult);
         buttonsPanel.add(buttonClear);
 
         /* -------------------------------------------------- */
 
-        CharacterButton button7 = new CharacterButton(String.valueOf(Config.num7));
+        CharacterButton button7 = new CharacterButton(String.valueOf(Characters.num7));
         buttonsPanel.add(button7);
 
-        CharacterButton button8 = new CharacterButton(String.valueOf(Config.num8));
+        CharacterButton button8 = new CharacterButton(String.valueOf(Characters.num8));
         buttonsPanel.add(button8);
 
-        CharacterButton button9 = new CharacterButton(String.valueOf(Config.num9));
+        CharacterButton button9 = new CharacterButton(String.valueOf(Characters.num9));
         buttonsPanel.add(button9);
 
-        CharacterButton buttonDivision = new CharacterButton(String.valueOf(Config.divisionOperator));
+        CharacterButton buttonDivision = new CharacterButton(String.valueOf(Operators.divisionOperator));
         buttonsPanel.add(buttonDivision);
 
         /* -------------------------------------------------- */
 
-        CharacterButton button4 = new CharacterButton(String.valueOf(Config.num4));
+        CharacterButton button4 = new CharacterButton(String.valueOf(Characters.num4));
         buttonsPanel.add(button4);
 
-        CharacterButton button5 = new CharacterButton(String.valueOf(Config.num5));
+        CharacterButton button5 = new CharacterButton(String.valueOf(Characters.num5));
         buttonsPanel.add(button5);
 
-        CharacterButton button6 = new CharacterButton(String.valueOf(Config.num6));
+        CharacterButton button6 = new CharacterButton(String.valueOf(Characters.num6));
         buttonsPanel.add(button6);
 
-        CharacterButton buttonMultiplication = new CharacterButton(String.valueOf(Config.multiplicationOperator));
+        CharacterButton buttonMultiplication = new CharacterButton(String.valueOf(Operators.multiplicationOperator));
         buttonsPanel.add(buttonMultiplication);
 
         /* -------------------------------------------------- */
 
-        CharacterButton button1 = new CharacterButton(String.valueOf(Config.num1));
+        CharacterButton button1 = new CharacterButton(String.valueOf(Characters.num1));
         buttonsPanel.add(button1);
 
-        CharacterButton button2 = new CharacterButton(String.valueOf(Config.num2));
+        CharacterButton button2 = new CharacterButton(String.valueOf(Characters.num2));
         buttonsPanel.add(button2);
 
-        CharacterButton button3 = new CharacterButton(String.valueOf(Config.num3));
+        CharacterButton button3 = new CharacterButton(String.valueOf(Characters.num3));
         buttonsPanel.add(button3);
 
-        CharacterButton buttonSubtraction = new CharacterButton(String.valueOf(Config.subtractionOperator));
+        CharacterButton buttonSubtraction = new CharacterButton(String.valueOf(Operators.subtractionOperator));
         buttonsPanel.add(buttonSubtraction);
 
         /* -------------------------------------------------- */
 
-        CharacterButton buttonDot = new CharacterButton(String.valueOf(Config.dot));
+        CharacterButton buttonDot = new CharacterButton(String.valueOf(Characters.dot));
         buttonsPanel.add(buttonDot);
 
-        CharacterButton button0 = new CharacterButton(String.valueOf(Config.num0));
+        CharacterButton button0 = new CharacterButton(String.valueOf(Characters.num0));
         buttonsPanel.add(button0);
 
-        ActionButton buttonEquals = new ActionButton(String.valueOf(Config.equals), this::evaluate);
+        ActionButton buttonEquals = new ActionButton(String.valueOf(Actions.equals), this::evaluate);
         buttonsPanel.add(buttonEquals);
 
-        CharacterButton buttonAddition = new CharacterButton(String.valueOf(Config.additionOperator));
+        CharacterButton buttonAddition = new CharacterButton(String.valueOf(Operators.additionOperator));
         buttonsPanel.add(buttonAddition);
 
         /* -------------------------------------------------- */
@@ -146,16 +146,6 @@ class Calculator extends JFrame
     {
         labelEquation.setText("0");
         labelEquation.setForeground(Color.black);
-    }
-
-    private void convertToPostfix()
-    {
-        String currentEquation = labelEquation.getText();
-
-        if (!currentEquation.isEmpty())
-        {
-            labelEquation.setText(Converter.convertToPostfixExpression(currentEquation));
-        }
     }
 
     private void evaluate()

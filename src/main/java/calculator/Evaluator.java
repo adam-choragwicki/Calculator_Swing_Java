@@ -13,7 +13,7 @@ public class Evaluator
         for (String token : tokens)
         {
             /* Operator */
-            if (token.length() == 1 && Config.availableOperators.contains(token.charAt(0)))
+            if (token.length() == 1 && Operators.availableOperators.contains(token.charAt(0)))
             {
                 char operator = token.charAt(0);
 
@@ -28,10 +28,10 @@ public class Evaluator
 
                     double result = switch (operator)
                     {
-                        case Config.additionOperator -> operand1 + operand2;
-                        case Config.subtractionOperator -> operand1 - operand2;
-                        case Config.multiplicationOperator -> operand1 * operand2;
-                        case Config.divisionOperator -> operand1 / operand2;
+                        case Operators.additionOperator -> operand1 + operand2;
+                        case Operators.subtractionOperator -> operand1 - operand2;
+                        case Operators.multiplicationOperator -> operand1 * operand2;
+                        case Operators.divisionOperator -> operand1 / operand2;
                         default -> throw new RuntimeException("Unsupported operator " + operator);
                     };
 
