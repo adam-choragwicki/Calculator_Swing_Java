@@ -117,6 +117,8 @@ class Calculator extends JFrame
     {
         String currentEquation = labelEquation.getText();
 
+        labelEquation.setForeground(Color.black);
+
         if (!currentEquation.isEmpty())
         {
             if (currentEquation.length() == 1)
@@ -132,6 +134,8 @@ class Calculator extends JFrame
 
     public static void appendCharacterToLabelEquation(final char character)
     {
+        labelEquation.setForeground(Color.black);
+
         if (labelEquation.getText().equals(Config.emptyResultContent))
         {
             labelEquation.setText(String.valueOf(character));
@@ -144,8 +148,8 @@ class Calculator extends JFrame
 
     private void clearResult()
     {
-        labelEquation.setText(Config.emptyResultContent);
         labelEquation.setForeground(Color.black);
+        labelEquation.setText(Config.emptyResultContent);
     }
 
     private void evaluate()

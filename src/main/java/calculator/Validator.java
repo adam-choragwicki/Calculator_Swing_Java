@@ -81,7 +81,45 @@ public class Validator
             return false;
         }
 
+        final String emptyParentheses = "\\(\\)";
+
+        if (applyRegex(infixExpression, emptyParentheses))
+        {
+            System.out.println("Empty parentheses not allowed");
+            return false;
+        }
+
+        final String numberFollowedByLeftParentheses = "\\d\\(";
+
+        if (applyRegex(infixExpression, numberFollowedByLeftParentheses))
+        {
+            System.out.println("Number cannot be immediately followed by parentheses, use operator");
+            return false;
+        }
+
+        final String rightParenthesesFollowedByNumber = "\\)\\d";
+
+        if (applyRegex(infixExpression, rightParenthesesFollowedByNumber))
+        {
+            System.out.println("Right parentheses cannot be immediately followed by a number, use operator");
+            return false;
+        }
+
+        if (!checkParenthesesBalance(infixExpression))
+        {
+            System.out.println("Left and right parentheses' count has to be equal");
+            return false;
+        }
+
         return true;
+    }
+
+    private static boolean checkParenthesesBalance(final String infixExpression)
+    {
+        long leftParenthesesCount = infixExpression.chars().filter(character -> character == '(').count();
+        long rightParenthesesCount = infixExpression.codePoints().filter(character -> character == ')').count();
+
+        return leftParenthesesCount == rightParenthesesCount;
     }
 
     static boolean applyRegex(final String expression, final String regex)

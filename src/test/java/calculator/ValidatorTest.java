@@ -135,6 +135,17 @@ class ValidatorPositiveTest extends ValidatorTest
         infixExpression = "-123*456";
         assertTrue(Validator.validateInfixExpression(infixExpression));
     }
+
+    @Test
+    @DisplayName("Balanced parentheses")
+    void validateInfixExpression14()
+    {
+        infixExpression = "((5+3))";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "((5-2)+3)";
+        assertTrue(Validator.validateInfixExpression(infixExpression));
+    }
 }
 
 class ValidatorNegativeTest extends ValidatorTest
@@ -292,6 +303,39 @@ class ValidatorNegativeTest extends ValidatorTest
         assertFalse(Validator.validateInfixExpression(infixExpression));
 
         infixExpression = "/456";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Number followed by left parentheses")
+    void validateInfixExpression18()
+    {
+        infixExpression = "4(5)";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "123+5(3)";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Right parentheses followed by a number")
+    void validateInfixExpression19()
+    {
+        infixExpression = "(5)4";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "4+(5)6";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+    }
+
+    @Test
+    @DisplayName("Unbalanced parentheses")
+    void validateInfixExpression20()
+    {
+        infixExpression = "(5+3))";
+        assertFalse(Validator.validateInfixExpression(infixExpression));
+
+        infixExpression = "((5+3)";
         assertFalse(Validator.validateInfixExpression(infixExpression));
     }
 }
