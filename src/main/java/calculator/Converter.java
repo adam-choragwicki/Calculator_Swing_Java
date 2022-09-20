@@ -14,7 +14,6 @@ public class Converter
         /* Simplifies some sequences of operators */
         infixExpression = simplifyInfixExpression(infixExpression);
 
-        infixExpression = infixExpression.replace("+(", "+1*(");
         infixExpression = infixExpression.replace("-(", "-1*(");
 
         StringBuilder currentOperand = new StringBuilder();
@@ -33,7 +32,8 @@ public class Converter
             {
                 if (scannedCharacter == Operators.additionOperator)
                 {
-                    if (currentOperand.isEmpty())
+                    /* Operator is the first character in expression, so it is unary operator */
+                    if (i == 0)
                     {
                         /* Scanned addition operator is unary operator and can be omitted */
                         continue;
@@ -44,7 +44,7 @@ public class Converter
                     if (currentOperand.isEmpty())
                     {
                         /* Scanned subtraction operator is unary operator and should be part of next scanned operand */
-                        currentOperand.append(Operators.subtractionOperator);
+                        currentOperand.append(scannedCharacter);
                         continue;
                     }
                 }
@@ -70,7 +70,12 @@ public class Converter
                     {
                         while (!operatorsStack.isEmpty() && hasPrecedence(scannedCharacter, operatorsStack.peek()) != Precedence.HIGHER)
                         {
-                            resultPostfixExpression.append(' ').append(operatorsStack.pop());
+                            char topOperator = operatorsStack.pop();
+
+                            if (topOperator != Characters.leftParentheses)
+                            {
+                                resultPostfixExpression.append(' ').append(topOperator);
+                            }
                         }
 
                         operatorsStack.push(scannedCharacter);
@@ -149,15 +154,16 @@ public class Converter
         HIGHER
     }
 
-    private static Precedence hasPrecedence(char operator1, char operator2)
+    static Precedence hasPrecedence(char operator1, char operator2)
     {
         if (operator1 == operator2)
         {
             return Precedence.EQUAL;
         }
 
-        List<Character> precedenceLevel1 = List.of(Operators.multiplicationOperator, Operators.divisionOperator);
-        List<Character> precedenceLevel2 = List.of(Operators.additionOperator, Operators.subtractionOperator);
+        List<Character> precedenceLevel1 = List.of(Characters.leftParentheses);
+        List<Character> precedenceLevel2 = List.of('*', '/');
+        List<Character> precedenceLevel3 = List.of('+', '-');
 
         /* Operator1 has precedence level 1 */
         if (precedenceLevel1.contains(operator1))
@@ -169,6 +175,11 @@ public class Converter
             }
             /* Operator 2 has lower precedence */
             else if (precedenceLevel2.contains(operator2))
+            {
+                return Precedence.HIGHER;
+            }
+            /* Operator 2 has lower precedence */
+            else if (precedenceLevel3.contains(operator2))
             {
                 return Precedence.HIGHER;
             }
@@ -187,6 +198,34 @@ public class Converter
             }
             /* Same precedence */
             else if (precedenceLevel2.contains(operator2))
+            {
+                return Precedence.EQUAL;
+            }
+            /* Operator 2 has higher precedence */
+            else if (precedenceLevel3.contains(operator2))
+            {
+                return Precedence.HIGHER;
+            }
+            else
+            {
+                throw new RuntimeException("Operator2 '%c' does not belong to any precedence level".formatted(operator2));
+            }
+        }
+        /* Operator1 has precedence level 3 */
+        else if (precedenceLevel3.contains(operator1))
+        {
+            /* Operator 2 has higher precedence */
+            if (precedenceLevel1.contains(operator2))
+            {
+                return Precedence.LOWER;
+            }
+            /* Operator 2 has higher precedence */
+            else if (precedenceLevel2.contains(operator2))
+            {
+                return Precedence.LOWER;
+            }
+            /* Same precedence */
+            else if (precedenceLevel3.contains(operator2))
             {
                 return Precedence.EQUAL;
             }
