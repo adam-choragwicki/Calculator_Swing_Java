@@ -28,7 +28,7 @@ class Calculator extends JFrame
 
     private void addLabel()
     {
-        labelEquation = new JLabel("0");
+        labelEquation = new JLabel(Config.emptyResultContent);
         labelEquation.setAlignmentX(Component.RIGHT_ALIGNMENT);
         labelEquation.setFont(Config.labelResultFont);
         add(labelEquation);
@@ -132,7 +132,7 @@ class Calculator extends JFrame
 
     public static void appendCharacterToLabelEquation(final char character)
     {
-        if (labelEquation.getText().equals("0"))
+        if (labelEquation.getText().equals(Config.emptyResultContent))
         {
             labelEquation.setText(String.valueOf(character));
         }
@@ -144,7 +144,7 @@ class Calculator extends JFrame
 
     private void clearResult()
     {
-        labelEquation.setText("0");
+        labelEquation.setText(Config.emptyResultContent);
         labelEquation.setForeground(Color.black);
     }
 

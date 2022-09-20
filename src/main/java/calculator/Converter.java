@@ -30,23 +30,16 @@ public class Converter
             /* Operator */
             else if (Operators.availableOperators.contains(scannedCharacter))
             {
-                if (scannedCharacter == Operators.additionOperator)
+                if (scannedCharacter == Operators.additionOperator && isUnaryOperator(infixExpression, i))
                 {
-                    /* Operator is the first character in expression, so it is unary operator */
-                    if (i == 0)
-                    {
-                        /* Scanned addition operator is unary operator and can be omitted */
-                        continue;
-                    }
+                    /* Scanned addition operator is unary operator and can be omitted */
+                    continue;
                 }
-                else if (scannedCharacter == Operators.subtractionOperator)
+                else if (scannedCharacter == Operators.subtractionOperator && isUnaryOperator(infixExpression, i))
                 {
-                    if (currentOperand.isEmpty())
-                    {
-                        /* Scanned subtraction operator is unary operator and should be part of next scanned operand */
-                        currentOperand.append(scannedCharacter);
-                        continue;
-                    }
+                    /* Scanned subtraction operator is unary operator and should be part of next scanned operand */
+                    currentOperand.append(scannedCharacter);
+                    continue;
                 }
 
                 resultPostfixExpression.append(' ').append(currentOperand);
@@ -145,5 +138,19 @@ public class Converter
         }
 
         return infixExpression;
+    }
+
+    private static boolean isUnaryOperator(String infixExpression, int i)
+    {
+        /* Operator is the first character in expression, so it is unary operator */
+        if (i == 0)
+        {
+            return true;
+        }
+        else
+        {
+            char previousCharacter = infixExpression.charAt(i - 1);
+            return (previousCharacter == Characters.leftParentheses) || (previousCharacter == Operators.multiplicationOperator) || (previousCharacter == Operators.divisionOperator);
+        }
     }
 }

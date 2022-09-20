@@ -42,6 +42,7 @@ class Actions
 
 public class Config
 {
+    static final String emptyResultContent = "0";
     static final Font labelResultFont = new Font("", Font.BOLD, 40);
     static final Font buttonFont = new Font("", Font.BOLD, 20);
 
