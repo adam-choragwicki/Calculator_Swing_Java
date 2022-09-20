@@ -2,6 +2,8 @@ package calculator;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Evaluator
 {
@@ -23,19 +25,19 @@ public class Evaluator
                     String operand2String = operandsStack.pop();
                     String operand1String = operandsStack.pop();
 
-                    double operand1 = Double.parseDouble(operand1String);
-                    double operand2 = Double.parseDouble(operand2String);
+                    BigDecimal operand1 = new BigDecimal(operand1String);
+                    BigDecimal operand2 = new BigDecimal(operand2String);
 
-                    double result = switch (operator)
+                    BigDecimal result = switch (operator)
                     {
-                        case Operators.additionOperator -> operand1 + operand2;
-                        case Operators.subtractionOperator -> operand1 - operand2;
-                        case Operators.multiplicationOperator -> operand1 * operand2;
-                        case Operators.divisionOperator -> operand1 / operand2;
+                        case Operators.additionOperator -> operand1.add(operand2);
+                        case Operators.subtractionOperator -> operand1.subtract(operand2);
+                        case Operators.multiplicationOperator -> operand1.multiply(operand2);
+                        case Operators.divisionOperator -> operand1.divide(operand2, 10, RoundingMode.DOWN);
                         default -> throw new RuntimeException("Unsupported operator " + operator);
                     };
 
-                    operandsStack.push(String.valueOf(result));
+                    operandsStack.push(result.stripTrailingZeros().toPlainString());
                 }
                 else
                 {
