@@ -134,7 +134,7 @@ class Calculator extends JFrame
         String currentEquation = labelEquation.getText();
 
         labelEquation.setForeground(Color.black);
-        statusBarManager.clear();
+        StatusBarManager.clear();
 
         if (!currentEquation.isEmpty())
         {
@@ -152,7 +152,7 @@ class Calculator extends JFrame
     public static void appendCharacterToLabelEquation(final char character)
     {
         labelEquation.setForeground(Color.black);
-        statusBarManager.clear();
+        StatusBarManager.clear();
 
         if (labelEquation.getText().equals(Config.emptyResultContent))
         {
@@ -166,7 +166,7 @@ class Calculator extends JFrame
 
     private void clearResult()
     {
-        statusBarManager.clear();
+        StatusBarManager.clear();
         labelEquation.setForeground(Color.black);
         labelEquation.setText(Config.emptyResultContent);
     }
@@ -174,8 +174,9 @@ class Calculator extends JFrame
     private void evaluate()
     {
         String currentEquation = labelEquation.getText();
+        ValidationResult validationResult = Validator.validateInfixExpression(currentEquation);
 
-        if (Validator.validateInfixExpression(currentEquation))
+        if (validationResult.isSuccess())
         {
             labelEquation.setForeground(Color.black);
 
@@ -185,9 +186,10 @@ class Calculator extends JFrame
         else
         {
             labelEquation.setForeground(Color.red);
+            statusBarManager.set(validationResult.getFailReason().toString());
         }
     }
 
     private static JLabel labelEquation;
-    private static StatusBarManager statusBarManager;
+    private StatusBarManager statusBarManager;
 }

@@ -3,30 +3,74 @@ package calculator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Validator
+enum FailReason
 {
-    static boolean validateInfixExpression(final String infixExpression)
+    AnyThreeOrMoreConsecutiveOperators("Any 3 or more consecutive operators are not allowed"),
+    WrongTwoConsecutiveOperators("Wrong 2 consecutive operators sequence"),
+    TwoOrMoreDotsInNumber("Two or more dots in number are not allowed"),
+    WrongOperatorAsTheFirstCharacter("Wrong operator as the first character of the equation"),
+    OperatorIsTheLastCharacterInExpression("Operator cannot be the last character in an equation"),
+    DotIsTheFirstCharacterInExpression("Dot cannot be the first character in an equation"),
+    DotIsTheLastCharacterInExpression("Dot cannot be the last character in an equation"),
+    DotWithoutIntegerPart("Dot cannot be used without integer part"),
+    DotWithoutFractionalPart("Dot cannot be used without fractional part"),
+    EmptyParentheses("Empty parentheses not allowed"),
+    LeftParenthesesPrecededByNumber("Number cannot be immediately followed by parentheses"),
+    RightParenthesesFollowedByNumber("Right parentheses cannot be immediately followed by a number"),
+    UnbalancedParentheses("Left and right parentheses' count has to be equal"),
+    NoFail("");
+
+    FailReason(String reasonString)
     {
-        String failReason = validateInfix(infixExpression);
-
-        if (failReason == null)
-        {
-            return true;
-        }
-        else
-        {
-            System.out.println(failReason);
-
-            if(StatusBarManager.isActive())
-            {
-                printReason(failReason);
-            }
-
-            return false;
-        }
+        this.reasonString = reasonString;
     }
 
-    private static String validateInfix(final String infixExpression)
+    @Override
+    public String toString()
+    {
+        return reasonString;
+    }
+
+    private final String reasonString;
+}
+
+class ValidationResult
+{
+    ValidationResult(FailReason failReason)
+    {
+        this.failReason = failReason;
+    }
+
+    public boolean isSuccess()
+    {
+        return failReason == FailReason.NoFail;
+    }
+
+
+    public FailReason getFailReason()
+    {
+        return failReason;
+    }
+
+    private final FailReason failReason;
+}
+
+public class Validator
+{
+    static ValidationResult validateInfixExpression(final String infixExpression)
+    {
+        FailReason failReason = executeValidation(infixExpression);
+        ValidationResult validationResult = new ValidationResult(failReason);
+
+        if(!validationResult.isSuccess())
+        {
+            System.out.println(failReason);
+        }
+
+        return validationResult;
+    }
+
+    private static FailReason executeValidation(final String infixExpression)
     {
         final String operatorsSetRegex = "[%c%c%c%c]".formatted(Operators.subtractionOperator, Operators.additionOperator, Operators.multiplicationOperator, Operators.divisionOperator);
 
@@ -34,92 +78,92 @@ public class Validator
 
         if (applyRegex(infixExpression, threeOrMoreConsecutiveOperatorsRegex))
         {
-            return "Any 3 or more consecutive operators are not allowed";
+            return FailReason.AnyThreeOrMoreConsecutiveOperators;
         }
 
         final String consecutiveOperatorsRegex = "%s[*/]".formatted(operatorsSetRegex);
 
         if (applyRegex(infixExpression, consecutiveOperatorsRegex))
         {
-            return "Wrong 2 consecutive operators sequence";
+            return FailReason.WrongTwoConsecutiveOperators;
         }
 
         final String twoOrMoreDotsRegex = "\\d+(\\.\\d*){2,}";
 
         if (applyRegex(infixExpression, twoOrMoreDotsRegex))
         {
-            return "Two or more dots in number are not allowed";
+            return FailReason.TwoOrMoreDotsInNumber;
         }
 
-        final String wrongOperatorAsTheFirstCharacter = "^[*/]";
+        final String wrongOperatorAsTheFirstCharacterRegex = "^[*/]";
 
-        if (applyRegex(infixExpression, wrongOperatorAsTheFirstCharacter))
+        if (applyRegex(infixExpression, wrongOperatorAsTheFirstCharacterRegex))
         {
-            return "Wrong operator as the first character of the equation";
+            return FailReason.WrongOperatorAsTheFirstCharacter;
         }
 
-        final String operatorAsTheLastCharacter = "%s$".formatted(operatorsSetRegex);
+        final String operatorAsTheLastCharacterRegex = "%s$".formatted(operatorsSetRegex);
 
-        if (applyRegex(infixExpression, operatorAsTheLastCharacter))
+        if (applyRegex(infixExpression, operatorAsTheLastCharacterRegex))
         {
-            return "Operator cannot be the last character in an equation";
+            return FailReason.OperatorIsTheLastCharacterInExpression;
         }
 
-        final String dotAsTheFirstCharacter = "^\\.";
+        final String dotAsTheFirstCharacterRegex = "^\\.";
 
-        if (applyRegex(infixExpression, dotAsTheFirstCharacter))
+        if (applyRegex(infixExpression, dotAsTheFirstCharacterRegex))
         {
-            return "Dot cannot be the first character in an equation";
+            return FailReason.DotIsTheFirstCharacterInExpression;
         }
 
-        final String dotAsTheLastCharacter = "\\.$";
+        final String dotAsTheLastCharacterRegex = "\\.$";
 
-        if (applyRegex(infixExpression, dotAsTheLastCharacter))
+        if (applyRegex(infixExpression, dotAsTheLastCharacterRegex))
         {
-            return "Dot cannot be the last character in an equation";
+            return FailReason.DotIsTheLastCharacterInExpression;
         }
 
-        final String dotWithoutIntegerPart = "%s\\.\\d+".formatted(operatorsSetRegex);
+        final String dotWithoutIntegerPartRegex = "%s\\.\\d+".formatted(operatorsSetRegex);
 
-        if (applyRegex(infixExpression, dotWithoutIntegerPart))
+        if (applyRegex(infixExpression, dotWithoutIntegerPartRegex))
         {
-            return "Dot cannot be used without integer part";
+            return FailReason.DotWithoutIntegerPart;
         }
 
-        final String dotWithoutFractionalPart = "\\d+\\.%s".formatted(operatorsSetRegex);
+        final String dotWithoutFractionalPartRegex = "\\d+\\.%s".formatted(operatorsSetRegex);
 
-        if (applyRegex(infixExpression, dotWithoutFractionalPart))
+        if (applyRegex(infixExpression, dotWithoutFractionalPartRegex))
         {
-            return "Dot cannot be used without fractional part";
+            return FailReason.DotWithoutFractionalPart;
         }
 
-        final String emptyParentheses = "\\(\\)";
+        final String emptyParenthesesRegex = "\\(\\)";
 
-        if (applyRegex(infixExpression, emptyParentheses))
+        if (applyRegex(infixExpression, emptyParenthesesRegex))
         {
-            return "Empty parentheses not allowed";
+            return FailReason.EmptyParentheses;
         }
 
-        final String numberFollowedByLeftParentheses = "\\d\\(";
+        final String numberFollowedByLeftParenthesesRegex = "\\d\\(";
 
-        if (applyRegex(infixExpression, numberFollowedByLeftParentheses))
+        if (applyRegex(infixExpression, numberFollowedByLeftParenthesesRegex))
         {
-            return "Number cannot be immediately followed by parentheses";
+            return FailReason.LeftParenthesesPrecededByNumber;
         }
 
-        final String rightParenthesesFollowedByNumber = "\\)\\d";
+        final String rightParenthesesFollowedByNumberRegex = "\\)\\d";
 
-        if (applyRegex(infixExpression, rightParenthesesFollowedByNumber))
+        if (applyRegex(infixExpression, rightParenthesesFollowedByNumberRegex))
         {
-            return "Right parentheses cannot be immediately followed by a number";
+            return FailReason.RightParenthesesFollowedByNumber;
         }
 
         if (!checkParenthesesBalance(infixExpression))
         {
-            return "Left and right parentheses' count has to be equal";
+            return FailReason.UnbalancedParentheses;
         }
 
-        return null;
+        return FailReason.NoFail;
     }
 
     private static boolean checkParenthesesBalance(final String infixExpression)
@@ -136,10 +180,5 @@ public class Validator
         Matcher matcher = pattern.matcher(expression);
 
         return matcher.find();
-    }
-
-    private static void printReason(String reason)
-    {
-        StatusBarManager.set(reason);
     }
 }
