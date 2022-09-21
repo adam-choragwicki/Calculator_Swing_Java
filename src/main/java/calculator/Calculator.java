@@ -1,6 +1,7 @@
 package calculator;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 
 class Calculator extends JFrame
@@ -22,15 +23,16 @@ class Calculator extends JFrame
 
     private void addComponents()
     {
-        addLabel();
+        addEquationLabel();
         addButtons();
+        addStatusBar();
     }
 
-    private void addLabel()
+    private void addEquationLabel()
     {
         labelEquation = new JLabel(Config.emptyResultContent);
         labelEquation.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        labelEquation.setFont(Config.labelResultFont);
+        labelEquation.setFont(Config.labelEquationFont);
         add(labelEquation);
     }
 
@@ -113,11 +115,26 @@ class Calculator extends JFrame
         add(buttonsPanel);
     }
 
+    private void addStatusBar()
+    {
+        JPanel statusPanel = new JPanel();
+        statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        statusPanel.setPreferredSize(new Dimension(getWidth(), getHeight()));
+        statusPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        add(statusPanel);
+
+        JLabel statusBarLabel = new JLabel();
+        statusPanel.add(statusBarLabel);
+
+        statusBarManager = new StatusBarManager(statusBarLabel);
+    }
+
     private void deleteLastCharacter()
     {
         String currentEquation = labelEquation.getText();
 
         labelEquation.setForeground(Color.black);
+        statusBarManager.clear();
 
         if (!currentEquation.isEmpty())
         {
@@ -135,6 +152,7 @@ class Calculator extends JFrame
     public static void appendCharacterToLabelEquation(final char character)
     {
         labelEquation.setForeground(Color.black);
+        statusBarManager.clear();
 
         if (labelEquation.getText().equals(Config.emptyResultContent))
         {
@@ -148,6 +166,7 @@ class Calculator extends JFrame
 
     private void clearResult()
     {
+        statusBarManager.clear();
         labelEquation.setForeground(Color.black);
         labelEquation.setText(Config.emptyResultContent);
     }
@@ -170,4 +189,5 @@ class Calculator extends JFrame
     }
 
     private static JLabel labelEquation;
+    private static StatusBarManager statusBarManager;
 }

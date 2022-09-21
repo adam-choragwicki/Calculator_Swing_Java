@@ -43,8 +43,9 @@ class Actions
 public class Config
 {
     static final String emptyResultContent = "0";
-    static final Font labelResultFont = new Font("", Font.BOLD, 40);
+    static final Font labelEquationFont = new Font("", Font.BOLD, 40);
     static final Font buttonFont = new Font("", Font.BOLD, 20);
+    static final Font statusBarFont = new Font("", Font.BOLD, 12);
 
     public static final int windowWidth = 450;
     public static final int windowHeight = 400;
