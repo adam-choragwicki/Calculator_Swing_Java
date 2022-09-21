@@ -30,7 +30,7 @@ class Calculator extends JFrame
 
     private void addEquationLabel()
     {
-        labelEquation = new JLabel(Config.emptyResultContent);
+        labelEquation = new JLabel(Config.emptyEquationContent);
         labelEquation.setAlignmentX(Component.RIGHT_ALIGNMENT);
         labelEquation.setFont(Config.labelEquationFont);
         add(labelEquation);
@@ -48,7 +48,7 @@ class Calculator extends JFrame
         CharacterButton buttonRightParentheses = new CharacterButton(String.valueOf(Characters.rightParentheses), this::appendCharacterToLabelEquation);
         buttonsPanel.add(buttonRightParentheses);
 
-        ActionButton buttonDelete = new ActionButton(Actions.delete, this::deleteLastCharacter);
+        ActionButton buttonDelete = new ActionButton(Actions.delete, this::deleteLastCharacterFromLabelEquation);
         buttonsPanel.add(buttonDelete);
 
         ActionButton buttonClear = new ActionButton(String.valueOf(Actions.clear), this::clearResult);
@@ -127,12 +127,31 @@ class Calculator extends JFrame
         statusPanel.add(statusBar);
     }
 
-    private void deleteLastCharacter()
+    private void modifyLabelEquation()
     {
-        String currentEquation = labelEquation.getText();
-
         labelEquation.setForeground(Color.black);
         statusBar.clear();
+    }
+
+    private void appendCharacterToLabelEquation(final char character)
+    {
+        modifyLabelEquation();
+
+        if (labelEquation.getText().equals(Config.emptyEquationContent))
+        {
+            labelEquation.setText(String.valueOf(character));
+        }
+        else
+        {
+            labelEquation.setText(labelEquation.getText() + character);
+        }
+    }
+
+    private void deleteLastCharacterFromLabelEquation()
+    {
+        modifyLabelEquation();
+
+        String currentEquation = labelEquation.getText();
 
         if (!currentEquation.isEmpty())
         {
@@ -147,26 +166,10 @@ class Calculator extends JFrame
         }
     }
 
-    public void appendCharacterToLabelEquation(final char character)
-    {
-        labelEquation.setForeground(Color.black);
-        statusBar.clear();
-
-        if (labelEquation.getText().equals(Config.emptyResultContent))
-        {
-            labelEquation.setText(String.valueOf(character));
-        }
-        else
-        {
-            labelEquation.setText(labelEquation.getText() + character);
-        }
-    }
-
     private void clearResult()
     {
-        statusBar.clear();
-        labelEquation.setForeground(Color.black);
-        labelEquation.setText(Config.emptyResultContent);
+        modifyLabelEquation();
+        labelEquation.setText(Config.emptyEquationContent);
     }
 
     private void evaluate()
