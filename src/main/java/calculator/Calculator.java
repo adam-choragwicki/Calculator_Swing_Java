@@ -1,5 +1,7 @@
 package calculator;
 
+import errorhandling.ErrorHandler;
+
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
@@ -181,8 +183,22 @@ class Calculator extends JFrame
         {
             labelEquation.setForeground(Color.black);
 
-            String postfixExpression = Converter.convertToPostfixExpression(currentEquation);
-            labelEquation.setText(Evaluator.evaluate(postfixExpression));
+            String postfixExpression;
+
+            ErrorHandler.ErrorPhase phase = ErrorHandler.ErrorPhase.Conversion;
+
+            try
+            {
+                postfixExpression = Converter.convertToPostfixExpression(currentEquation);
+
+                phase = ErrorHandler.ErrorPhase.Evaluation;
+
+                labelEquation.setText(Evaluator.evaluate(postfixExpression));
+            }
+            catch (Exception e)
+            {
+                ErrorHandler.showCalculatorErrorDialog(this, phase, e.getMessage());
+            }
         }
         else
         {
