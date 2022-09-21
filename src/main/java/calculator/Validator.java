@@ -34,25 +34,12 @@ enum FailReason
     private final String reasonString;
 }
 
-class ValidationResult
+record ValidationResult(FailReason failReason)
 {
-    ValidationResult(FailReason failReason)
-    {
-        this.failReason = failReason;
-    }
-
     public boolean isSuccess()
     {
         return failReason == FailReason.NoFail;
     }
-
-
-    public FailReason getFailReason()
-    {
-        return failReason;
-    }
-
-    private final FailReason failReason;
 }
 
 public class Validator

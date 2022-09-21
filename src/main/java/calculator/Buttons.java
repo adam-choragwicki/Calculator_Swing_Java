@@ -1,6 +1,7 @@
 package calculator;
 
 import javax.swing.*;
+import java.util.function.Consumer;
 
 abstract class CalculatorButton extends JButton
 {
@@ -13,10 +14,10 @@ abstract class CalculatorButton extends JButton
 
 class CharacterButton extends CalculatorButton
 {
-    CharacterButton(String text)
+    CharacterButton(String text, Consumer<Character> function)
     {
         super(text);
-        addActionListener(actionEvent -> Calculator.appendCharacterToLabelEquation(getText().charAt(0)));
+        addActionListener(actionEvent -> function.accept(text.charAt(0)));
     }
 }
 

@@ -20,7 +20,7 @@ class Characters
     static final char num9 = '9';
     static final char dot = '.';
 
-    static List<Character> availableCharacters = List.of(num0, num1, num2, num3, num4, num5, num6, num7, num8, num9, dot);
+    static final List<Character> availableCharacters = List.of(num0, num1, num2, num3, num4, num5, num6, num7, num8, num9, dot);
 }
 
 class Operators
@@ -30,7 +30,7 @@ class Operators
     static final char multiplicationOperator = '*';
     static final char divisionOperator = '/';
 
-    static List<Character> availableOperators = List.of(additionOperator,subtractionOperator,multiplicationOperator,divisionOperator);
+    static final List<Character> availableOperators = List.of(additionOperator,subtractionOperator,multiplicationOperator,divisionOperator);
 }
 
 class Actions

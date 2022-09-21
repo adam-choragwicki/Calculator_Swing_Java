@@ -42,10 +42,10 @@ class Calculator extends JFrame
 
         buttonsPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        CharacterButton buttonLeftParentheses = new CharacterButton(String.valueOf(Characters.leftParentheses));
+        CharacterButton buttonLeftParentheses = new CharacterButton(String.valueOf(Characters.leftParentheses), this::appendCharacterToLabelEquation);
         buttonsPanel.add(buttonLeftParentheses);
 
-        CharacterButton buttonRightParentheses = new CharacterButton(String.valueOf(Characters.rightParentheses));
+        CharacterButton buttonRightParentheses = new CharacterButton(String.valueOf(Characters.rightParentheses), this::appendCharacterToLabelEquation);
         buttonsPanel.add(buttonRightParentheses);
 
         ActionButton buttonDelete = new ActionButton(Actions.delete, this::deleteLastCharacter);
@@ -56,58 +56,58 @@ class Calculator extends JFrame
 
         /* -------------------------------------------------- */
 
-        CharacterButton button7 = new CharacterButton(String.valueOf(Characters.num7));
+        CharacterButton button7 = new CharacterButton(String.valueOf(Characters.num7), this::appendCharacterToLabelEquation);
         buttonsPanel.add(button7);
 
-        CharacterButton button8 = new CharacterButton(String.valueOf(Characters.num8));
+        CharacterButton button8 = new CharacterButton(String.valueOf(Characters.num8), this::appendCharacterToLabelEquation);
         buttonsPanel.add(button8);
 
-        CharacterButton button9 = new CharacterButton(String.valueOf(Characters.num9));
+        CharacterButton button9 = new CharacterButton(String.valueOf(Characters.num9), this::appendCharacterToLabelEquation);
         buttonsPanel.add(button9);
 
-        CharacterButton buttonDivision = new CharacterButton(String.valueOf(Operators.divisionOperator));
+        CharacterButton buttonDivision = new CharacterButton(String.valueOf(Operators.divisionOperator), this::appendCharacterToLabelEquation);
         buttonsPanel.add(buttonDivision);
 
         /* -------------------------------------------------- */
 
-        CharacterButton button4 = new CharacterButton(String.valueOf(Characters.num4));
+        CharacterButton button4 = new CharacterButton(String.valueOf(Characters.num4), this::appendCharacterToLabelEquation);
         buttonsPanel.add(button4);
 
-        CharacterButton button5 = new CharacterButton(String.valueOf(Characters.num5));
+        CharacterButton button5 = new CharacterButton(String.valueOf(Characters.num5), this::appendCharacterToLabelEquation);
         buttonsPanel.add(button5);
 
-        CharacterButton button6 = new CharacterButton(String.valueOf(Characters.num6));
+        CharacterButton button6 = new CharacterButton(String.valueOf(Characters.num6), this::appendCharacterToLabelEquation);
         buttonsPanel.add(button6);
 
-        CharacterButton buttonMultiplication = new CharacterButton(String.valueOf(Operators.multiplicationOperator));
+        CharacterButton buttonMultiplication = new CharacterButton(String.valueOf(Operators.multiplicationOperator), this::appendCharacterToLabelEquation);
         buttonsPanel.add(buttonMultiplication);
 
         /* -------------------------------------------------- */
 
-        CharacterButton button1 = new CharacterButton(String.valueOf(Characters.num1));
+        CharacterButton button1 = new CharacterButton(String.valueOf(Characters.num1), this::appendCharacterToLabelEquation);
         buttonsPanel.add(button1);
 
-        CharacterButton button2 = new CharacterButton(String.valueOf(Characters.num2));
+        CharacterButton button2 = new CharacterButton(String.valueOf(Characters.num2), this::appendCharacterToLabelEquation);
         buttonsPanel.add(button2);
 
-        CharacterButton button3 = new CharacterButton(String.valueOf(Characters.num3));
+        CharacterButton button3 = new CharacterButton(String.valueOf(Characters.num3), this::appendCharacterToLabelEquation);
         buttonsPanel.add(button3);
 
-        CharacterButton buttonSubtraction = new CharacterButton(String.valueOf(Operators.subtractionOperator));
+        CharacterButton buttonSubtraction = new CharacterButton(String.valueOf(Operators.subtractionOperator), this::appendCharacterToLabelEquation);
         buttonsPanel.add(buttonSubtraction);
 
         /* -------------------------------------------------- */
 
-        CharacterButton buttonDot = new CharacterButton(String.valueOf(Characters.dot));
+        CharacterButton buttonDot = new CharacterButton(String.valueOf(Characters.dot), this::appendCharacterToLabelEquation);
         buttonsPanel.add(buttonDot);
 
-        CharacterButton button0 = new CharacterButton(String.valueOf(Characters.num0));
+        CharacterButton button0 = new CharacterButton(String.valueOf(Characters.num0), this::appendCharacterToLabelEquation);
         buttonsPanel.add(button0);
 
         ActionButton buttonEquals = new ActionButton(String.valueOf(Actions.equals), this::evaluate);
         buttonsPanel.add(buttonEquals);
 
-        CharacterButton buttonAddition = new CharacterButton(String.valueOf(Operators.additionOperator));
+        CharacterButton buttonAddition = new CharacterButton(String.valueOf(Operators.additionOperator), this::appendCharacterToLabelEquation);
         buttonsPanel.add(buttonAddition);
 
         /* -------------------------------------------------- */
@@ -123,10 +123,8 @@ class Calculator extends JFrame
         statusPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
         add(statusPanel);
 
-        JLabel statusBarLabel = new JLabel();
-        statusPanel.add(statusBarLabel);
-
-        statusBarManager = new StatusBarManager(statusBarLabel);
+        statusBar = new StatusBar();
+        statusPanel.add(statusBar);
     }
 
     private void deleteLastCharacter()
@@ -134,7 +132,7 @@ class Calculator extends JFrame
         String currentEquation = labelEquation.getText();
 
         labelEquation.setForeground(Color.black);
-        StatusBarManager.clear();
+        statusBar.clear();
 
         if (!currentEquation.isEmpty())
         {
@@ -149,10 +147,10 @@ class Calculator extends JFrame
         }
     }
 
-    public static void appendCharacterToLabelEquation(final char character)
+    public void appendCharacterToLabelEquation(final char character)
     {
         labelEquation.setForeground(Color.black);
-        StatusBarManager.clear();
+        statusBar.clear();
 
         if (labelEquation.getText().equals(Config.emptyResultContent))
         {
@@ -166,7 +164,7 @@ class Calculator extends JFrame
 
     private void clearResult()
     {
-        StatusBarManager.clear();
+        statusBar.clear();
         labelEquation.setForeground(Color.black);
         labelEquation.setText(Config.emptyResultContent);
     }
@@ -186,10 +184,10 @@ class Calculator extends JFrame
         else
         {
             labelEquation.setForeground(Color.red);
-            statusBarManager.set(validationResult.getFailReason().toString());
+            statusBar.set(validationResult.failReason());
         }
     }
 
-    private static JLabel labelEquation;
-    private StatusBarManager statusBarManager;
+    private JLabel labelEquation;
+    private StatusBar statusBar;
 }

@@ -53,15 +53,7 @@ public class Evaluator
 
         if (operandsStack.size() == 1)
         {
-            String result = operandsStack.pop();
-
-            /* Remove trailing .0 */
-            if (result.endsWith(".0"))
-            {
-                return result.substring(0, result.length() - 2);
-            }
-
-            return result;
+            return operandsStack.pop();
         }
         else
         {
