@@ -6,6 +6,7 @@ import config.GuiConfig;
 import config.Operators;
 import conversion.Converter;
 import errorhandling.ErrorHandler;
+import evaluation.EvaluationResult;
 import evaluation.Evaluator;
 import validation.ValidationResult;
 import validation.Validator;
@@ -201,7 +202,16 @@ class Calculator extends JFrame
 
                 phase = ErrorHandler.ErrorPhase.Evaluation;
 
-                labelEquation.setText(Evaluator.evaluate(postfixExpression));
+                EvaluationResult evaluationResult = Evaluator.evaluate(postfixExpression);
+
+                if(evaluationResult.isSuccess())
+                {
+                    labelEquation.setText(evaluationResult.toString());
+                }
+                else
+                {
+                    ErrorHandler.showDivisionByZeroError();
+                }
             }
             catch (Exception e)
             {

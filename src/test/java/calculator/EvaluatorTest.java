@@ -1,5 +1,6 @@
 package calculator;
 
+import evaluation.EvaluationResult;
 import evaluation.Evaluator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,12 +16,16 @@ class EvaluatorTest
         postfixExpression = "2";
         expectedEvaluationResult = "2";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "-5";
         expectedEvaluationResult = "-5";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
     }
 
     @Test
@@ -30,22 +35,30 @@ class EvaluatorTest
         postfixExpression = "2 5 +";
         expectedEvaluationResult = "7";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "2 5 -";
         expectedEvaluationResult = "-3";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "2 5 \u00D7";
         expectedEvaluationResult = "10";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "2 5 \u00F7";
         expectedEvaluationResult = "0.4";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
     }
 
     @Test
@@ -55,22 +68,30 @@ class EvaluatorTest
         postfixExpression = "2.123 5.456 +";
         expectedEvaluationResult = "7.579";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "2.123 5.456 -";
         expectedEvaluationResult = "-3.333";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "2.123 5.456 \u00D7";
         expectedEvaluationResult = "11.583088";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "2.123 5.456 \u00F7";
         expectedEvaluationResult = "0.3891129032";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
     }
 
     @Test
@@ -80,12 +101,16 @@ class EvaluatorTest
         postfixExpression = "2 5 + 3 -";
         expectedEvaluationResult = "4";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "2 5 \u00D7 3 \u00D7";
         expectedEvaluationResult = "30";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
     }
 
     @Test
@@ -95,27 +120,37 @@ class EvaluatorTest
         postfixExpression = "2 5 3 \u00D7 +";
         expectedEvaluationResult = "17";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "2 5 \u00D7 3 +";
         expectedEvaluationResult = "13";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "2 5 3 \u00D7 + 4 +";
         expectedEvaluationResult = "21";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "2 5 \u00D7 3 4 \u00D7 +";
         expectedEvaluationResult = "22";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
 
         postfixExpression = "2 5 \u00D7 1 4 \u00F7 - 5 +";
         expectedEvaluationResult = "14.75";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
     }
 
     @Test
@@ -125,7 +160,9 @@ class EvaluatorTest
         postfixExpression = "2 +5 -";
         expectedEvaluationResult = "-3";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
     }
 
     @Test
@@ -135,9 +172,24 @@ class EvaluatorTest
         postfixExpression = "2 -7 +";
         expectedEvaluationResult = "-5";
 
-        assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertTrue(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
+    }
+
+    @Test
+    @DisplayName("Division by zero")
+    void evaluate8()
+    {
+        postfixExpression = "2 0 \u00F7";
+        expectedEvaluationResult = null;
+
+        evaluationResult = Evaluator.evaluate(postfixExpression);
+        assertFalse(evaluationResult.isSuccess());
+        assertEquals(expectedEvaluationResult, evaluationResult.toString());
     }
 
     private String postfixExpression;
     private String expectedEvaluationResult;
+    private EvaluationResult evaluationResult;
 }

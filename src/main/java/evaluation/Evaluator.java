@@ -9,7 +9,7 @@ import java.math.RoundingMode;
 
 public class Evaluator
 {
-    public static String evaluate(final String postfixExpression)
+    public static EvaluationResult evaluate(final String postfixExpression)
     {
         Deque<String> operandsStack = new ArrayDeque<>();
         String[] tokens = postfixExpression.split(" ");
@@ -30,14 +30,32 @@ public class Evaluator
                     BigDecimal operand1 = new BigDecimal(operand1String);
                     BigDecimal operand2 = new BigDecimal(operand2String);
 
+                    boolean divisionByZeroErrorOccurred = false;
+
                     BigDecimal result = switch (operator)
                     {
                         case Operators.additionOperator -> operand1.add(operand2);
                         case Operators.subtractionOperator -> operand1.subtract(operand2);
                         case Operators.multiplicationOperator -> operand1.multiply(operand2);
-                        case Operators.divisionOperator -> operand1.divide(operand2, 10, RoundingMode.DOWN);
+                        case Operators.divisionOperator ->
+                        {
+                            if (operand2.compareTo(BigDecimal.ZERO) == 0)
+                            {
+                                divisionByZeroErrorOccurred = true;
+                                yield null;
+                            }
+                            else
+                            {
+                                yield operand1.divide(operand2, 10, RoundingMode.DOWN);
+                            }
+                        }
                         default -> throw new RuntimeException("Unsupported operator " + operator);
                     };
+
+                    if (divisionByZeroErrorOccurred)
+                    {
+                        return new EvaluationResult(null, false);
+                    }
 
                     operandsStack.push(result.stripTrailingZeros().toPlainString());
                 }
@@ -55,7 +73,7 @@ public class Evaluator
 
         if (operandsStack.size() == 1)
         {
-            return operandsStack.pop();
+            return new EvaluationResult(operandsStack.pop(), true);
         }
         else
         {
