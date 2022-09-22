@@ -204,6 +204,27 @@ class ConverterTest
     @DisplayName("Nested parentheses")
     void convertToPostfixExpression7()
     {
+        infixExpression = "5 \u00D7 ((3))";
+        expectedPostfixExpression = "5 3 \u00D7";
+        expectedEvaluationResult = "15";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+        assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)).toString());
+
+        infixExpression = "5 \u00D7 (((3)))";
+        expectedPostfixExpression = "5 3 \u00D7";
+        expectedEvaluationResult = "15";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+        assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)).toString());
+
+        infixExpression = "5 \u00D7 ((((3))))";
+        expectedPostfixExpression = "5 3 \u00D7";
+        expectedEvaluationResult = "15";
+
+        assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
+        assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)).toString());
+
         infixExpression = "5 \u00D7 ((3 + 2) \u00D7 4)";
         expectedPostfixExpression = "5 3 2 + 4 \u00D7 \u00D7";
         expectedEvaluationResult = "100";

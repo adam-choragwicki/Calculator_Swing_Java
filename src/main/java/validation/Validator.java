@@ -1,5 +1,6 @@
 package validation;
 
+import config.Characters;
 import config.Operators;
 
 import java.util.regex.Matcher;
@@ -119,8 +120,8 @@ public class Validator
 
     private static boolean checkParenthesesBalance(final String infixExpression)
     {
-        long leftParenthesesCount = infixExpression.chars().filter(character -> character == '(').count();
-        long rightParenthesesCount = infixExpression.codePoints().filter(character -> character == ')').count();
+        long leftParenthesesCount = infixExpression.chars().filter(character -> character == Characters.leftParentheses).count();
+        long rightParenthesesCount = infixExpression.codePoints().filter(character -> character == Characters.rightParentheses).count();
 
         return leftParenthesesCount == rightParenthesesCount;
     }

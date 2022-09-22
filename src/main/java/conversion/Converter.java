@@ -54,7 +54,7 @@ public class Converter
                 }
                 else
                 {
-                    if (operatorsStack.peek() == '(')
+                    if (operatorsStack.peek() == Characters.leftParentheses)
                     {
                         operatorsStack.push(scannedCharacter);
                     }
@@ -97,7 +97,7 @@ public class Converter
                 {
                     char character = operatorsStack.pop();
 
-                    if (character == '(')
+                    if (character == Characters.leftParentheses)
                     {
                         break;
                     }
@@ -120,8 +120,8 @@ public class Converter
             resultPostfixExpression.append(' ').append(operatorsStack.pop());
         }
 
-        /* Remove doubles spaces */
-        return String.valueOf(resultPostfixExpression).trim().replace("  ", " ");
+        /* Replace multiple spaces with single spaces */
+        return resultPostfixExpression.toString().trim().replaceAll(" +", " ");
     }
 
     private static String simplifyInfixExpression(String infixExpression)
