@@ -1,63 +1,26 @@
-package calculator;
+package validation;
+
+import config.Operators;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-enum FailReason
-{
-    AnyThreeOrMoreConsecutiveOperators("Any 3 or more consecutive operators are not allowed"),
-    WrongTwoConsecutiveOperators("Wrong 2 consecutive operators sequence"),
-    TwoOrMoreDotsInNumber("Two or more dots in number are not allowed"),
-    WrongOperatorAsTheFirstCharacter("Wrong operator as the first character of the equation"),
-    OperatorIsTheLastCharacterInExpression("Operator cannot be the last character in an equation"),
-    DotIsTheFirstCharacterInExpression("Dot cannot be the first character in an equation"),
-    DotIsTheLastCharacterInExpression("Dot cannot be the last character in an equation"),
-    DotWithoutIntegerPart("Dot cannot be used without integer part"),
-    DotWithoutFractionalPart("Dot cannot be used without fractional part"),
-    EmptyParentheses("Empty parentheses not allowed"),
-    LeftParenthesesPrecededByNumber("Number cannot be immediately followed by parentheses"),
-    RightParenthesesFollowedByNumber("Right parentheses cannot be immediately followed by a number"),
-    UnbalancedParentheses("Left and right parentheses' count has to be equal"),
-    NoFail("");
-
-    FailReason(String reasonString)
-    {
-        this.reasonString = reasonString;
-    }
-
-    @Override
-    public String toString()
-    {
-        return reasonString;
-    }
-
-    private final String reasonString;
-}
-
-record ValidationResult(FailReason failReason)
-{
-    public boolean isSuccess()
-    {
-        return failReason == FailReason.NoFail;
-    }
-}
-
 public class Validator
 {
-    static ValidationResult validateInfixExpression(final String infixExpression)
+    public static ValidationResult validateInfixExpression(final String infixExpression)
     {
-        FailReason failReason = executeValidation(infixExpression);
-        ValidationResult validationResult = new ValidationResult(failReason);
+        ValidationFailureReason validationFailureReason = executeValidation(infixExpression);
+        ValidationResult validationResult = new ValidationResult(validationFailureReason);
 
         if(!validationResult.isSuccess())
         {
-            System.out.println(failReason);
+            System.out.println(validationFailureReason);
         }
 
         return validationResult;
     }
 
-    private static FailReason executeValidation(final String infixExpression)
+    private static ValidationFailureReason executeValidation(final String infixExpression)
     {
         final String operatorsSetRegex = "[%c%c%c%c]".formatted(Operators.subtractionOperator, Operators.additionOperator, Operators.multiplicationOperator, Operators.divisionOperator);
 
@@ -65,92 +28,92 @@ public class Validator
 
         if (applyRegex(infixExpression, threeOrMoreConsecutiveOperatorsRegex))
         {
-            return FailReason.AnyThreeOrMoreConsecutiveOperators;
+            return ValidationFailureReason.AnyThreeOrMoreConsecutiveOperators;
         }
 
         final String consecutiveOperatorsRegex = "%s[*/]".formatted(operatorsSetRegex);
 
         if (applyRegex(infixExpression, consecutiveOperatorsRegex))
         {
-            return FailReason.WrongTwoConsecutiveOperators;
+            return ValidationFailureReason.WrongTwoConsecutiveOperators;
         }
 
         final String twoOrMoreDotsRegex = "\\d+(\\.\\d*){2,}";
 
         if (applyRegex(infixExpression, twoOrMoreDotsRegex))
         {
-            return FailReason.TwoOrMoreDotsInNumber;
+            return ValidationFailureReason.TwoOrMoreDotsInNumber;
         }
 
         final String wrongOperatorAsTheFirstCharacterRegex = "^[*/]";
 
         if (applyRegex(infixExpression, wrongOperatorAsTheFirstCharacterRegex))
         {
-            return FailReason.WrongOperatorAsTheFirstCharacter;
+            return ValidationFailureReason.WrongOperatorAsTheFirstCharacter;
         }
 
         final String operatorAsTheLastCharacterRegex = "%s$".formatted(operatorsSetRegex);
 
         if (applyRegex(infixExpression, operatorAsTheLastCharacterRegex))
         {
-            return FailReason.OperatorIsTheLastCharacterInExpression;
+            return ValidationFailureReason.OperatorIsTheLastCharacterInExpression;
         }
 
         final String dotAsTheFirstCharacterRegex = "^\\.";
 
         if (applyRegex(infixExpression, dotAsTheFirstCharacterRegex))
         {
-            return FailReason.DotIsTheFirstCharacterInExpression;
+            return ValidationFailureReason.DotIsTheFirstCharacterInExpression;
         }
 
         final String dotAsTheLastCharacterRegex = "\\.$";
 
         if (applyRegex(infixExpression, dotAsTheLastCharacterRegex))
         {
-            return FailReason.DotIsTheLastCharacterInExpression;
+            return ValidationFailureReason.DotIsTheLastCharacterInExpression;
         }
 
         final String dotWithoutIntegerPartRegex = "%s\\.\\d+".formatted(operatorsSetRegex);
 
         if (applyRegex(infixExpression, dotWithoutIntegerPartRegex))
         {
-            return FailReason.DotWithoutIntegerPart;
+            return ValidationFailureReason.DotWithoutIntegerPart;
         }
 
         final String dotWithoutFractionalPartRegex = "\\d+\\.%s".formatted(operatorsSetRegex);
 
         if (applyRegex(infixExpression, dotWithoutFractionalPartRegex))
         {
-            return FailReason.DotWithoutFractionalPart;
+            return ValidationFailureReason.DotWithoutFractionalPart;
         }
 
         final String emptyParenthesesRegex = "\\(\\)";
 
         if (applyRegex(infixExpression, emptyParenthesesRegex))
         {
-            return FailReason.EmptyParentheses;
+            return ValidationFailureReason.EmptyParentheses;
         }
 
         final String numberFollowedByLeftParenthesesRegex = "\\d\\(";
 
         if (applyRegex(infixExpression, numberFollowedByLeftParenthesesRegex))
         {
-            return FailReason.LeftParenthesesPrecededByNumber;
+            return ValidationFailureReason.LeftParenthesesPrecededByNumber;
         }
 
         final String rightParenthesesFollowedByNumberRegex = "\\)\\d";
 
         if (applyRegex(infixExpression, rightParenthesesFollowedByNumberRegex))
         {
-            return FailReason.RightParenthesesFollowedByNumber;
+            return ValidationFailureReason.RightParenthesesFollowedByNumber;
         }
 
         if (!checkParenthesesBalance(infixExpression))
         {
-            return FailReason.UnbalancedParentheses;
+            return ValidationFailureReason.UnbalancedParentheses;
         }
 
-        return FailReason.NoFail;
+        return ValidationFailureReason.NoFail;
     }
 
     private static boolean checkParenthesesBalance(final String infixExpression)

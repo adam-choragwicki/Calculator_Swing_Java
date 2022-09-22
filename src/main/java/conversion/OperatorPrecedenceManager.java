@@ -1,10 +1,13 @@
-package calculator;
+package conversion;
+
+import config.Characters;
+import config.Operators;
 
 import java.util.List;
 
 public class OperatorPrecedenceManager
 {
-    static boolean hasPrecedence(char operator1, char operator2)
+    public static boolean hasPrecedence(char operator1, char operator2)
     {
         if (operator1 == operator2)
         {
@@ -86,7 +89,7 @@ public class OperatorPrecedenceManager
         }
     }
 
-    static final List<Character> precedenceLevel1 = List.of(Characters.leftParentheses);
-    static final List<Character> precedenceLevel2 = List.of(Operators.multiplicationOperator, Operators.divisionOperator);
-    static final List<Character> precedenceLevel3 = List.of(Operators.additionOperator, Operators.subtractionOperator);
+    private static final List<Character> precedenceLevel1 = List.of(Characters.leftParentheses);
+    private static final List<Character> precedenceLevel2 = List.of(Operators.multiplicationOperator, Operators.divisionOperator);
+    private static final List<Character> precedenceLevel3 = List.of(Operators.additionOperator, Operators.subtractionOperator);
 }

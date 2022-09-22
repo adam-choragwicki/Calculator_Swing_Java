@@ -2,6 +2,8 @@ package calculator;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import validation.ValidationFailureReason;
+import validation.Validator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -117,7 +119,7 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = "123+-*456";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.AnyThreeOrMoreConsecutiveOperators, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.AnyThreeOrMoreConsecutiveOperators, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -126,35 +128,35 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = "123+*456";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123+/456";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123-*456";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123-/456";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123**456";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123*/456";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123/*456";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123//456";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.WrongTwoConsecutiveOperators, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -163,15 +165,15 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = "123*4.5.6";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.TwoOrMoreDotsInNumber, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.TwoOrMoreDotsInNumber, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123*4...5.6";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.TwoOrMoreDotsInNumber, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.TwoOrMoreDotsInNumber, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123*0...5...6";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.TwoOrMoreDotsInNumber, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.TwoOrMoreDotsInNumber, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -181,11 +183,11 @@ class ValidatorNegativeTest extends ValidatorTest
         infixExpression = "*456";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.WrongOperatorAsTheFirstCharacter, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.WrongOperatorAsTheFirstCharacter, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "/456";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.WrongOperatorAsTheFirstCharacter, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.WrongOperatorAsTheFirstCharacter, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -194,23 +196,23 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = "123+";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.OperatorIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.OperatorIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123.456+";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.OperatorIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.OperatorIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123.456+456.789-";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.OperatorIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.OperatorIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123.456+456.789-123.456+";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.OperatorIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.OperatorIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "0.123+";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.OperatorIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.OperatorIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -219,15 +221,15 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = ".";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.DotIsTheFirstCharacterInExpression, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.DotIsTheFirstCharacterInExpression, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = ".123";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.DotIsTheFirstCharacterInExpression, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.DotIsTheFirstCharacterInExpression, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = ".+123";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.DotIsTheFirstCharacterInExpression, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.DotIsTheFirstCharacterInExpression, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -236,7 +238,7 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = "123*456.";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.DotIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.DotIsTheLastCharacterInExpression, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -245,11 +247,11 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = "5+.123";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.DotWithoutIntegerPart, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.DotWithoutIntegerPart, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "5+.123+7";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.DotWithoutIntegerPart, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.DotWithoutIntegerPart, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -258,11 +260,11 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = "123+456.+7";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.DotWithoutFractionalPart, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.DotWithoutFractionalPart, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "456.+123";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.DotWithoutFractionalPart, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.DotWithoutFractionalPart, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -271,15 +273,15 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = "()";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.EmptyParentheses, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.EmptyParentheses, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "5*()";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.EmptyParentheses, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.EmptyParentheses, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "()*5";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.EmptyParentheses, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.EmptyParentheses, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -288,11 +290,11 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = "4(5)";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.LeftParenthesesPrecededByNumber, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.LeftParenthesesPrecededByNumber, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "123+5(3)";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.LeftParenthesesPrecededByNumber, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.LeftParenthesesPrecededByNumber, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -301,11 +303,11 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = "(5)4";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.RightParenthesesFollowedByNumber, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.RightParenthesesFollowedByNumber, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "4+(5)6";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.RightParenthesesFollowedByNumber, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.RightParenthesesFollowedByNumber, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 
     @Test
@@ -314,10 +316,10 @@ class ValidatorNegativeTest extends ValidatorTest
     {
         infixExpression = "(5+3))";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.UnbalancedParentheses, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.UnbalancedParentheses, Validator.validateInfixExpression(infixExpression).validationFailureReason());
 
         infixExpression = "((5+3)";
         assertFalse(Validator.validateInfixExpression(infixExpression).isSuccess());
-        assertEquals(FailReason.UnbalancedParentheses, Validator.validateInfixExpression(infixExpression).failReason());
+        assertEquals(ValidationFailureReason.UnbalancedParentheses, Validator.validateInfixExpression(infixExpression).validationFailureReason());
     }
 }

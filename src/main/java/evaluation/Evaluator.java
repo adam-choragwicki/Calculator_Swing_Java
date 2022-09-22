@@ -1,4 +1,6 @@
-package calculator;
+package evaluation;
+
+import config.Operators;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -7,7 +9,7 @@ import java.math.RoundingMode;
 
 public class Evaluator
 {
-    static String evaluate(final String postfixExpression)
+    public static String evaluate(final String postfixExpression)
     {
         Deque<String> operandsStack = new ArrayDeque<>();
         String[] tokens = postfixExpression.split(" ");

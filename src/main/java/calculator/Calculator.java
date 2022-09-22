@@ -1,6 +1,14 @@
 package calculator;
 
+import config.Actions;
+import config.Characters;
+import config.GuiConfig;
+import config.Operators;
+import conversion.Converter;
 import errorhandling.ErrorHandler;
+import evaluation.Evaluator;
+import validation.ValidationResult;
+import validation.Validator;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -18,7 +26,7 @@ class Calculator extends JFrame
 
         addComponents();
 
-        setSize(Config.windowWidth, Config.windowHeight);
+        setSize(GuiConfig.windowWidth, GuiConfig.windowHeight);
         setMinimumSize(getSize());
         setVisible(true);
     }
@@ -32,9 +40,9 @@ class Calculator extends JFrame
 
     private void addEquationLabel()
     {
-        labelEquation = new JLabel(Config.emptyEquationContent);
+        labelEquation = new JLabel(GuiConfig.emptyEquationContent);
         labelEquation.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        labelEquation.setFont(Config.labelEquationFont);
+        labelEquation.setFont(GuiConfig.labelEquationFont);
         add(labelEquation);
     }
 
@@ -139,7 +147,7 @@ class Calculator extends JFrame
     {
         modifyLabelEquation();
 
-        if (labelEquation.getText().equals(Config.emptyEquationContent))
+        if (labelEquation.getText().equals(GuiConfig.emptyEquationContent))
         {
             labelEquation.setText(String.valueOf(character));
         }
@@ -171,7 +179,7 @@ class Calculator extends JFrame
     private void clearResult()
     {
         modifyLabelEquation();
-        labelEquation.setText(Config.emptyEquationContent);
+        labelEquation.setText(GuiConfig.emptyEquationContent);
     }
 
     private void evaluate()
@@ -203,7 +211,7 @@ class Calculator extends JFrame
         else
         {
             labelEquation.setForeground(Color.red);
-            statusBar.set(validationResult.failReason());
+            statusBar.set(validationResult.validationFailureReason());
         }
     }
 

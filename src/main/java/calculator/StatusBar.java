@@ -1,17 +1,20 @@
 package calculator;
 
+import config.GuiConfig;
+import validation.ValidationFailureReason;
+
 import javax.swing.*;
 
 public class StatusBar extends JLabel
 {
     StatusBar()
     {
-        setFont(Config.statusBarFont);
+        setFont(GuiConfig.statusBarFont);
     }
 
-    void set(FailReason failReason)
+    void set(ValidationFailureReason validationFailureReason)
     {
-        setText(failReason.toString());
+        setText(validationFailureReason.toString());
     }
 
     void clear()

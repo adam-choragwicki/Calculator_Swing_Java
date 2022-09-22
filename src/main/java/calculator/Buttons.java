@@ -1,5 +1,7 @@
 package calculator;
 
+import config.GuiConfig;
+
 import javax.swing.*;
 import java.util.function.Consumer;
 
@@ -8,7 +10,7 @@ abstract class CalculatorButton extends JButton
     CalculatorButton(String text)
     {
         super(text);
-        setFont(Config.buttonFont);
+        setFont(GuiConfig.buttonFont);
     }
 }
 

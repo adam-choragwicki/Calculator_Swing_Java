@@ -1,10 +1,13 @@
-package calculator;
+package conversion;
+
+import config.Characters;
+import config.Operators;
 
 import java.util.*;
 
 public class Converter
 {
-    static String convertToPostfixExpression(String infixExpression)
+    public static String convertToPostfixExpression(String infixExpression)
     {
         StringBuilder resultPostfixExpression = new StringBuilder();
         Deque<Character> operatorsStack = new ArrayDeque<>();
