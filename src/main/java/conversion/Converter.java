@@ -17,7 +17,7 @@ public class Converter
         /* Simplifies some sequences of operators */
         infixExpression = simplifyInfixExpression(infixExpression);
 
-        infixExpression = infixExpression.replace("-(", "-1*(");
+        infixExpression = infixExpression.replace("-(", "-1%c(".formatted(Operators.multiplicationOperator));
 
         StringBuilder currentOperand = new StringBuilder();
 
@@ -131,8 +131,8 @@ public class Converter
         "+-", "-",
         "-+", "-",
         "--", "+",
-        "*+", "*",
-        "/+", "/"
+        "%c+".formatted(Operators.multiplicationOperator), "%c".formatted(Operators.multiplicationOperator),
+        "%c+".formatted(Operators.divisionOperator), "%c".formatted(Operators.divisionOperator)
         );
 
         for (var entry : operatorsSimplificationMapping.entrySet())

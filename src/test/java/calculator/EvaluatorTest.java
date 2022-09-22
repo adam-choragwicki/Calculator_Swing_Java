@@ -37,12 +37,12 @@ class EvaluatorTest
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
 
-        postfixExpression = "2 5 *";
+        postfixExpression = "2 5 \u00D7";
         expectedEvaluationResult = "10";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
 
-        postfixExpression = "2 5 /";
+        postfixExpression = "2 5 \u00F7";
         expectedEvaluationResult = "0.4";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
@@ -62,12 +62,12 @@ class EvaluatorTest
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
 
-        postfixExpression = "2.123 5.456 *";
+        postfixExpression = "2.123 5.456 \u00D7";
         expectedEvaluationResult = "11.583088";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
 
-        postfixExpression = "2.123 5.456 /";
+        postfixExpression = "2.123 5.456 \u00F7";
         expectedEvaluationResult = "0.3891129032";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
@@ -82,7 +82,7 @@ class EvaluatorTest
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
 
-        postfixExpression = "2 5 * 3 *";
+        postfixExpression = "2 5 \u00D7 3 \u00D7";
         expectedEvaluationResult = "30";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
@@ -92,27 +92,27 @@ class EvaluatorTest
     @DisplayName("Mixed precedence operations")
     void evaluate5()
     {
-        postfixExpression = "2 5 3 * +";
+        postfixExpression = "2 5 3 \u00D7 +";
         expectedEvaluationResult = "17";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
 
-        postfixExpression = "2 5 * 3 +";
+        postfixExpression = "2 5 \u00D7 3 +";
         expectedEvaluationResult = "13";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
 
-        postfixExpression = "2 5 3 * + 4 +";
+        postfixExpression = "2 5 3 \u00D7 + 4 +";
         expectedEvaluationResult = "21";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
 
-        postfixExpression = "2 5 * 3 4 * +";
+        postfixExpression = "2 5 \u00D7 3 4 \u00D7 +";
         expectedEvaluationResult = "22";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));
 
-        postfixExpression = "2 5 * 1 4 / - 5 +";
+        postfixExpression = "2 5 \u00D7 1 4 \u00F7 - 5 +";
         expectedEvaluationResult = "14.75";
 
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(postfixExpression));

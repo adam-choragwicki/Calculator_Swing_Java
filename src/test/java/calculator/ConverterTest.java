@@ -20,50 +20,50 @@ class ConverterTest
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "2 + 5 * 3";
-        expectedPostfixExpression = "2 5 3 * +";
+        infixExpression = "2 + 5 \u00D7 3";
+        expectedPostfixExpression = "2 5 3 \u00D7 +";
         expectedEvaluationResult = "17";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "2 + 5 * 3 - 4";
-        expectedPostfixExpression = "2 5 3 * + 4 -";
+        infixExpression = "2 + 5 \u00D7 3 - 4";
+        expectedPostfixExpression = "2 5 3 \u00D7 + 4 -";
         expectedEvaluationResult = "13";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "2 + 5 * 3 - 4 / 8";
-        expectedPostfixExpression = "2 5 3 * + 4 8 / -";
+        infixExpression = "2 + 5 \u00D7 3 - 4 \u00F7 8";
+        expectedPostfixExpression = "2 5 3 \u00D7 + 4 8 \u00F7 -";
         expectedEvaluationResult = "16.5";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "2 * 5";
-        expectedPostfixExpression = "2 5 *";
+        infixExpression = "2 \u00D7 5";
+        expectedPostfixExpression = "2 5 \u00D7";
         expectedEvaluationResult = "10";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "2 * 5 + 3";
-        expectedPostfixExpression = "2 5 * 3 +";
+        infixExpression = "2 \u00D7 5 + 3";
+        expectedPostfixExpression = "2 5 \u00D7 3 +";
         expectedEvaluationResult = "13";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "2 * 5 + 3 - 4";
-        expectedPostfixExpression = "2 5 * 3 + 4 -";
+        infixExpression = "2 \u00D7 5 + 3 - 4";
+        expectedPostfixExpression = "2 5 \u00D7 3 + 4 -";
         expectedEvaluationResult = "9";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "2 * 5 + 3 - 4 / 8";
-        expectedPostfixExpression = "2 5 * 3 + 4 8 / -";
+        infixExpression = "2 \u00D7 5 + 3 - 4 \u00F7 8";
+        expectedPostfixExpression = "2 5 \u00D7 3 + 4 8 \u00F7 -";
         expectedEvaluationResult = "12.5";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
@@ -140,22 +140,22 @@ class ConverterTest
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "4 * (2 + 3) / 5";
-        expectedPostfixExpression = "4 2 3 + * 5 /";
+        infixExpression = "4 \u00D7 (2 + 3) \u00F7 5";
+        expectedPostfixExpression = "4 2 3 + \u00D7 5 \u00F7";
         expectedEvaluationResult = "4";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "-4 * (-2 + -3) / -5";
-        expectedPostfixExpression = "-4 -2 3 - * -5 /";
+        infixExpression = "-4 \u00D7 (-2 + -3) \u00F7 -5";
+        expectedPostfixExpression = "-4 -2 3 - \u00D7 -5 \u00F7";
         expectedEvaluationResult = "-4";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "5 * (3 + 2)";
-        expectedPostfixExpression = "5 3 2 + *";
+        infixExpression = "5 \u00D7 (3 + 2)";
+        expectedPostfixExpression = "5 3 2 + \u00D7";
         expectedEvaluationResult = "25";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
@@ -166,8 +166,8 @@ class ConverterTest
     @DisplayName("Multiple parentheses")
     void convertToPostfixExpression5()
     {
-        infixExpression = "(2 + 3) * (4 - 5)";
-        expectedPostfixExpression = "2 3 + 4 5 - *";
+        infixExpression = "(2 + 3) \u00D7 (4 - 5)";
+        expectedPostfixExpression = "2 3 + 4 5 - \u00D7";
         expectedEvaluationResult = "-5";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
@@ -178,8 +178,8 @@ class ConverterTest
     @DisplayName("'+' before parentheses")
     void convertToPostfixExpression6()
     {
-        infixExpression = "5 + (3 * 2)";
-        expectedPostfixExpression = "5 3 2 * +";
+        infixExpression = "5 + (3 \u00D7 2)";
+        expectedPostfixExpression = "5 3 2 \u00D7 +";
         expectedEvaluationResult = "11";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
@@ -192,8 +192,8 @@ class ConverterTest
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "(2 + 3) + (5 * 1)";
-        expectedPostfixExpression = "2 3 + 5 1 * +";
+        infixExpression = "(2 + 3) + (5 \u00D7 1)";
+        expectedPostfixExpression = "2 3 + 5 1 \u00D7 +";
         expectedEvaluationResult = "10";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
@@ -204,15 +204,15 @@ class ConverterTest
     @DisplayName("Nested parentheses")
     void convertToPostfixExpression7()
     {
-        infixExpression = "5 * ((3 + 2) * 4)";
-        expectedPostfixExpression = "5 3 2 + 4 * *";
+        infixExpression = "5 \u00D7 ((3 + 2) \u00D7 4)";
+        expectedPostfixExpression = "5 3 2 + 4 \u00D7 \u00D7";
         expectedEvaluationResult = "100";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "-5 * -(-(3 + 2) * -4)";
-        expectedPostfixExpression = "-5 -1 * -1 3 2 + * * -4 *";
+        infixExpression = "-5 \u00D7 -(-(3 + 2) \u00D7 -4)";
+        expectedPostfixExpression = "-5 -1 \u00D7 -1 3 2 + \u00D7 \u00D7 -4 \u00D7";
         expectedEvaluationResult = "100";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
@@ -224,28 +224,28 @@ class ConverterTest
     void convertToPostfixExpression8()
     {
         infixExpression = "-(2 + 3)";
-        expectedPostfixExpression = "-1 2 3 + *";
+        expectedPostfixExpression = "-1 2 3 + \u00D7";
         expectedEvaluationResult = "-5";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "-(2 + 3) * -(4 - 5)";
-        expectedPostfixExpression = "-1 2 3 + * -1 * 4 5 - *";
+        infixExpression = "-(2 + 3) \u00D7 -(4 - 5)";
+        expectedPostfixExpression = "-1 2 3 + \u00D7 -1 \u00D7 4 5 - \u00D7";
         expectedEvaluationResult = "-5";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
         infixExpression = "-(4 - 5) + -(5 + 10)";
-        expectedPostfixExpression = "-1 4 5 - * 1 5 10 + * -";
+        expectedPostfixExpression = "-1 4 5 - \u00D7 1 5 10 + \u00D7 -";
         expectedEvaluationResult = "-14";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));
         assertEquals(expectedEvaluationResult, Evaluator.evaluate(Converter.convertToPostfixExpression(infixExpression)));
 
-        infixExpression = "-(2 + 3) * -(4 - 5) + -(5 + 10)";
-        expectedPostfixExpression = "-1 2 3 + * -1 * 4 5 - * 1 5 10 + * -";
+        infixExpression = "-(2 + 3) \u00D7 -(4 - 5) + -(5 + 10)";
+        expectedPostfixExpression = "-1 2 3 + \u00D7 -1 \u00D7 4 5 - \u00D7 1 5 10 + \u00D7 -";
         expectedEvaluationResult = "-20";
 
         assertEquals(expectedPostfixExpression, Converter.convertToPostfixExpression(infixExpression));

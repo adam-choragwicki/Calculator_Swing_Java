@@ -22,16 +22,17 @@ public class Validator
 
     private static ValidationFailureReason executeValidation(final String infixExpression)
     {
-        final String operatorsSetRegex = "[%c%c%c%c]".formatted(Operators.subtractionOperator, Operators.additionOperator, Operators.multiplicationOperator, Operators.divisionOperator);
+        final String allOperatorsSetRegex = "[%c%c%c%c]".formatted(Operators.subtractionOperator, Operators.additionOperator, Operators.multiplicationOperator, Operators.divisionOperator);
+        final String multiplicationAndDivisionOperatorsSetRegex = "[%c%c]".formatted(Operators.multiplicationOperator, Operators.divisionOperator);
 
-        final String threeOrMoreConsecutiveOperatorsRegex = "%s{3,}".formatted(operatorsSetRegex);
+        final String threeOrMoreConsecutiveOperatorsRegex = "%s{3,}".formatted(allOperatorsSetRegex);
 
         if (applyRegex(infixExpression, threeOrMoreConsecutiveOperatorsRegex))
         {
             return ValidationFailureReason.AnyThreeOrMoreConsecutiveOperators;
         }
 
-        final String consecutiveOperatorsRegex = "%s[*/]".formatted(operatorsSetRegex);
+        final String consecutiveOperatorsRegex = "%s%s".formatted(allOperatorsSetRegex, multiplicationAndDivisionOperatorsSetRegex);
 
         if (applyRegex(infixExpression, consecutiveOperatorsRegex))
         {
@@ -45,14 +46,14 @@ public class Validator
             return ValidationFailureReason.TwoOrMoreDotsInNumber;
         }
 
-        final String wrongOperatorAsTheFirstCharacterRegex = "^[*/]";
+        final String wrongOperatorAsTheFirstCharacterRegex = "^%s".formatted(multiplicationAndDivisionOperatorsSetRegex);
 
         if (applyRegex(infixExpression, wrongOperatorAsTheFirstCharacterRegex))
         {
             return ValidationFailureReason.WrongOperatorAsTheFirstCharacter;
         }
 
-        final String operatorAsTheLastCharacterRegex = "%s$".formatted(operatorsSetRegex);
+        final String operatorAsTheLastCharacterRegex = "%s$".formatted(allOperatorsSetRegex);
 
         if (applyRegex(infixExpression, operatorAsTheLastCharacterRegex))
         {
@@ -73,14 +74,14 @@ public class Validator
             return ValidationFailureReason.DotIsTheLastCharacterInExpression;
         }
 
-        final String dotWithoutIntegerPartRegex = "%s\\.\\d+".formatted(operatorsSetRegex);
+        final String dotWithoutIntegerPartRegex = "%s\\.\\d+".formatted(allOperatorsSetRegex);
 
         if (applyRegex(infixExpression, dotWithoutIntegerPartRegex))
         {
             return ValidationFailureReason.DotWithoutIntegerPart;
         }
 
-        final String dotWithoutFractionalPartRegex = "\\d+\\.%s".formatted(operatorsSetRegex);
+        final String dotWithoutFractionalPartRegex = "\\d+\\.%s".formatted(allOperatorsSetRegex);
 
         if (applyRegex(infixExpression, dotWithoutFractionalPartRegex))
         {
