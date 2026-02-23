@@ -10,7 +10,12 @@ Java implementation of a simple calculator using:
 **Executable JAR is provided.**
 
 ### Features:
-* Supports all basic mathematical operations and parentheses.
+* Basic operations: addition, subtraction, multiplication, division (\u00D7, \u00F7).
+* Parentheses support with standard operator precedence.
+* Unary plus/minus (e.g., -2, +(3+4)).
+* Decimal number support with input validation (rejects malformed numbers).
+* Division-by-zero detection with user feedback.
+* Visual validation feedback via status bar.
 
 Internally, it performs infix-to-postfix expression conversion followed by postfix expression evaluation. It also provides visual feedback in case the input expression is ill-formed.
 
