@@ -130,12 +130,15 @@ class Calculator extends JFrame
     {
         JPanel statusPanel = new JPanel();
         statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-        statusPanel.setPreferredSize(new Dimension(getWidth(), getHeight()));
         statusPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        add(statusPanel);
 
         statusBar = new StatusBar();
         statusPanel.add(statusBar);
+
+        Dimension preferredSize = statusPanel.getPreferredSize();
+        statusPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, preferredSize.height));
+
+        add(statusPanel);
     }
 
     private void modifyLabelEquation()
