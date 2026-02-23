@@ -120,10 +120,28 @@ public class Validator
 
     private static boolean checkParenthesesBalance(final String infixExpression)
     {
-        long leftParenthesesCount = infixExpression.chars().filter(character -> character == Characters.leftParentheses).count();
-        long rightParenthesesCount = infixExpression.codePoints().filter(character -> character == Characters.rightParentheses).count();
+        int balance = 0;
 
-        return leftParenthesesCount == rightParenthesesCount;
+        for (int i = 0; i < infixExpression.length(); i++)
+        {
+            char character = infixExpression.charAt(i);
+
+            if (character == Characters.leftParentheses)
+            {
+                ++balance;
+            }
+            else if (character == Characters.rightParentheses)
+            {
+                --balance;
+
+                if (balance < 0)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return balance == 0;
     }
 
     private static boolean applyRegex(final String expression, final String regex)

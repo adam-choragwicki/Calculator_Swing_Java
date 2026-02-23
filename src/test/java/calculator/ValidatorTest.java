@@ -381,4 +381,29 @@ class ValidatorNegativeTest extends ValidatorTest
         assertFalse(validationResult.isSuccess());
         assertEquals(ValidationFailureReason.UnbalancedParentheses, validationResult.validationFailureReason());
     }
+
+    @Test
+    @DisplayName("Wrong parentheses order")
+    void validateInfixExpression14()
+    {
+        infixExpression = ")(";
+        validationResult = Validator.validateInfixExpression(infixExpression);
+        assertFalse(validationResult.isSuccess());
+        assertEquals(ValidationFailureReason.UnbalancedParentheses, validationResult.validationFailureReason());
+
+        infixExpression = ")(5+3)";
+        validationResult = Validator.validateInfixExpression(infixExpression);
+        assertFalse(validationResult.isSuccess());
+        assertEquals(ValidationFailureReason.UnbalancedParentheses, validationResult.validationFailureReason());
+
+        infixExpression = "5+3)(";
+        validationResult = Validator.validateInfixExpression(infixExpression);
+        assertFalse(validationResult.isSuccess());
+        assertEquals(ValidationFailureReason.UnbalancedParentheses, validationResult.validationFailureReason());
+
+        infixExpression = "(5+3))(";
+        validationResult = Validator.validateInfixExpression(infixExpression);
+        assertFalse(validationResult.isSuccess());
+        assertEquals(ValidationFailureReason.UnbalancedParentheses, validationResult.validationFailureReason());
+    }
 }
