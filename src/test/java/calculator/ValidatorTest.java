@@ -300,6 +300,16 @@ class ValidatorNegativeTest extends ValidatorTest
         validationResult = Validator.validateInfixExpression(infixExpression);
         assertFalse(validationResult.isSuccess());
         assertEquals(ValidationFailureReason.DotWithoutIntegerPart, validationResult.validationFailureReason());
+
+        infixExpression = "(.123)";
+        validationResult = Validator.validateInfixExpression(infixExpression);
+        assertFalse(validationResult.isSuccess());
+        assertEquals(ValidationFailureReason.DotWithoutIntegerPart, validationResult.validationFailureReason());
+
+        infixExpression = "5+(.123)";
+        validationResult = Validator.validateInfixExpression(infixExpression);
+        assertFalse(validationResult.isSuccess());
+        assertEquals(ValidationFailureReason.DotWithoutIntegerPart, validationResult.validationFailureReason());
     }
 
     @Test
@@ -312,6 +322,16 @@ class ValidatorNegativeTest extends ValidatorTest
         assertEquals(ValidationFailureReason.DotWithoutFractionalPart, validationResult.validationFailureReason());
 
         infixExpression = "456.+123";
+        validationResult = Validator.validateInfixExpression(infixExpression);
+        assertFalse(validationResult.isSuccess());
+        assertEquals(ValidationFailureReason.DotWithoutFractionalPart, validationResult.validationFailureReason());
+
+        infixExpression = "123.)";
+        validationResult = Validator.validateInfixExpression(infixExpression);
+        assertFalse(validationResult.isSuccess());
+        assertEquals(ValidationFailureReason.DotWithoutFractionalPart, validationResult.validationFailureReason());
+
+        infixExpression = "(123.)";
         validationResult = Validator.validateInfixExpression(infixExpression);
         assertFalse(validationResult.isSuccess());
         assertEquals(ValidationFailureReason.DotWithoutFractionalPart, validationResult.validationFailureReason());

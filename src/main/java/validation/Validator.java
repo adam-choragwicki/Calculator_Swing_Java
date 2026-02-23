@@ -25,6 +25,8 @@ public class Validator
     {
         final String allOperatorsSetRegex = "[%c%c%c%c]".formatted(Operators.subtractionOperator, Operators.additionOperator, Operators.multiplicationOperator, Operators.divisionOperator);
         final String multiplicationAndDivisionOperatorsSetRegex = "[%c%c]".formatted(Operators.multiplicationOperator, Operators.divisionOperator);
+        final String operatorsOrLeftParenthesesRegex = "[%c%c%c%c%c]".formatted(Operators.subtractionOperator, Operators.additionOperator, Operators.multiplicationOperator, Operators.divisionOperator, Characters.leftParentheses);
+        final String operatorsOrRightParenthesesRegex = "[%c%c%c%c%c]".formatted(Operators.subtractionOperator, Operators.additionOperator, Operators.multiplicationOperator, Operators.divisionOperator, Characters.rightParentheses);
 
         final String threeOrMoreConsecutiveOperatorsRegex = "%s{3,}".formatted(allOperatorsSetRegex);
 
@@ -75,14 +77,14 @@ public class Validator
             return ValidationFailureReason.DotIsTheLastCharacterInExpression;
         }
 
-        final String dotWithoutIntegerPartRegex = "%s\\.\\d+".formatted(allOperatorsSetRegex);
+        final String dotWithoutIntegerPartRegex = "%s\\.\\d+".formatted(operatorsOrLeftParenthesesRegex);
 
         if (applyRegex(infixExpression, dotWithoutIntegerPartRegex))
         {
             return ValidationFailureReason.DotWithoutIntegerPart;
         }
 
-        final String dotWithoutFractionalPartRegex = "\\d+\\.%s".formatted(allOperatorsSetRegex);
+        final String dotWithoutFractionalPartRegex = "\\d+\\.%s".formatted(operatorsOrRightParenthesesRegex);
 
         if (applyRegex(infixExpression, dotWithoutFractionalPartRegex))
         {
