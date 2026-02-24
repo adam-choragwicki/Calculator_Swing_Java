@@ -1,9 +1,9 @@
 # Calculator
 
 Java implementation of a simple calculator using:
-* OpenJDK 18
+* OpenJDK 25
 * Java Swing library
-* Maven 3.8.1.
+* Maven 3.9.11
 
 ![](screenshots.jpg)
 
