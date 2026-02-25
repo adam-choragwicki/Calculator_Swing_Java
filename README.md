@@ -1,3 +1,5 @@
+[![Tests](https://github.com/adam-choragwicki/Calculator_Swing_Java/actions/workflows/tests-workflow.yml/badge.svg)](https://github.com/adam-choragwicki/Calculator_Swing_Java/actions/workflows/tests-workflow.yml)
+
 # Calculator
 
 Java implementation of a simple calculator using:
